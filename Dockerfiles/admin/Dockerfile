@@ -133,6 +133,8 @@ WORKDIR "${OPENCAST_HOME}"
 EXPOSE 8080
 VOLUME [ "${OPENCAST_DATA}" ]
 
+USER opencast
+
 HEALTHCHECK --timeout=10s CMD /docker-healthcheck.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["app:start"]

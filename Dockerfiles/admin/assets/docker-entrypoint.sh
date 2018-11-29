@@ -86,7 +86,7 @@ opencast_main_start() {
 
   if opencast_helper_dist_develop; then
     export DEFAULT_JAVA_DEBUG_OPTS="${DEFAULT_JAVA_DEBUG_OPTS:--Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005}"
-    exec su-exec "${OPENCAST_USER}":"${OPENCAST_GROUP}" bin/start-opencast debug
+    exec bin/start-opencast debug
   elif opencast_helper_dist_migration; then
     echo
     echo "##############################################################################"
@@ -97,10 +97,10 @@ opencast_main_start() {
     echo "###############################################################################"
     echo
     read -r
-    exec su-exec "${OPENCAST_USER}":"${OPENCAST_GROUP}" bin/start-opencast
+    exec bin/start-opencast
   fi
 
-  su-exec "${OPENCAST_USER}":"${OPENCAST_GROUP}" bin/start-opencast daemon &
+  bin/start-opencast daemon &
   OC_PID=$!
   trap opencast_main_stop TERM INT
 
