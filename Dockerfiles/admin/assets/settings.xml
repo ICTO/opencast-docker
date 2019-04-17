@@ -1,11 +1,9 @@
 <settings>
-  <proxies>
-   <proxy>
+  <mirrors>
+   <mirror>
       <id>openshift-internal</id>
-      <active>true</active>
-      <protocol>http</protocol>
-      <host>nexus.opencast.svc.cluster.local</host>
-      <port>8081</port>
-    </proxy>
-  </proxies>
+      <mirrorOf>*</mirrorOf>
+      <url>http://nexus.opencast.svc.cluster.local/nexus/content/groups/public</url>
+    </mirror>
+  </mirrors>
 </settings>
