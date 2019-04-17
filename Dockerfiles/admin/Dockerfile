@@ -26,7 +26,7 @@ ENV OPENCAST_DISTRIBUTION="admin" \
     OPENCAST_BRANCH="${branch}" \
     MAVEN_MIRROR_URL="http://nexus.opencast.svc.cluster.local:8081/nexus/content/groups/public"
 
-COPY --chown=opencast:opencast assets/settings.xml ~/.m2/settings.xml
+COPY assets/settings.xml ~/.m2/settings.xml
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
