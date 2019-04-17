@@ -26,6 +26,8 @@ ENV OPENCAST_DISTRIBUTION="admin" \
     OPENCAST_BRANCH="${branch}" \
     MAVEN_MIRROR_URL="http://nexus.opencast.svc.cluster.local:8081/nexus/content/groups/public"
 
+COPY --chown=opencast:opencast assets/settings.xml ~/.m2/settings.xml
+
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
       tar gzip git \
@@ -35,7 +37,7 @@ RUN apt-get update \
  && git clone --recursive "${OPENCAST_REPO}" "${OPENCAST_SRC}" \
  && cd "${OPENCAST_SRC}" \
  && git checkout "${OPENCAST_BRANCH}" \
- && mvn --quiet --batch-mode install -DskipTests=true -Dcheckstyle.skip=true -DskipJasmineTests=true \
+ && mvn clean install \
  && tar -xzf build/opencast-dist-${OPENCAST_DISTRIBUTION}-*.tar.gz --strip 1 -C "${OPENCAST_HOME}" \
  && rm -rf "${OPENCAST_SRC}" /tmp/* /var/lib/apt/lists/* ~/.m2 ~/.npm ~/.node-gyp /usr/lib/node_modules
 

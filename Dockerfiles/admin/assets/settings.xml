@@ -1,0 +1,11 @@
+<settings>
+  <proxies>
+   <proxy>
+      <id>openshift-internal</id>
+      <active>true</active>
+      <protocol>http</protocol>
+      <host>nexus.opencast.svc.cluster.local</host>
+      <port>8081</port>
+    </proxy>
+  </proxies>
+</settings>
