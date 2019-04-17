@@ -14,8 +14,8 @@
 
 FROM openjdk:8-jdk-slim-stretch AS build
 
-ARG repo="https://github.com/opencast/opencast.git"
-ARG branch="5.2"
+ARG repo="https://github.com/mm-dict/opencast.git"
+ARG branch="r/7.x-ugent"
 
 ENV OPENCAST_DISTRIBUTION="admin" \
     OPENCAST_SRC="/usr/src/opencast" \
@@ -23,7 +23,8 @@ ENV OPENCAST_DISTRIBUTION="admin" \
     OPENCAST_UID="800" \
     OPENCAST_GID="800" \
     OPENCAST_REPO="${repo}" \
-    OPENCAST_BRANCH="${branch}"
+    OPENCAST_BRANCH="${branch}" \
+    MAVEN_MIRROR_URL="http://nexus.opencast.svc.cluster.local:8081/nexus/content/groups/public"
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
@@ -43,7 +44,7 @@ FROM quay.io/mtneug/synfig-core AS synfig
 FROM alpine:edge
 LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.version="5.2" \
+      org.label-schema.version="7.x" \
       org.label-schema.name="opencast-admin" \
       org.label-schema.description="Docker image for the Opencast admin distribution" \
       org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/5.2/README.md" \
@@ -51,14 +52,14 @@ LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
       org.label-schema.vendor="University of Münster" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER sh" \
-      org.label-schema.docker.cmd.help="docker run --rm quay.io/opencast/admin:5.2 app:help"
+      org.label-schema.docker.cmd.help="docker run --rm quay.io/opencast/admin:7.x app:help"
 
 ENV LANG="C.UTF-8" \
     JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk" \
     PATH="$PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin" \
     HUNSPELL_BASE_URL="http://download.services.openoffice.org/contrib/dictionaries" \
     \
-    OPENCAST_VERSION="5.2" \
+    OPENCAST_VERSION="7.x" \
     OPENCAST_DISTRIBUTION="admin" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \
