@@ -38,7 +38,7 @@ RUN apt-get update \
  && git clone --recursive "${OPENCAST_REPO}" "${OPENCAST_SRC}" \
  && cd "${OPENCAST_SRC}" \
  && git checkout "${OPENCAST_BRANCH}" \
- && mvn clean install -DskipTests=true -Dcheckstyle.skip=true -DskipJasmineTests=true \
+ && mvn clean install -DskipTests=true -Dcheckstyle.skip=true -DskipJasmineTests=true` \
  && tar -xzf build/opencast-dist-${OPENCAST_DISTRIBUTION}-*.tar.gz --strip 1 -C "${OPENCAST_HOME}" \
  && rm -rf "${OPENCAST_SRC}" /tmp/* /var/lib/apt/lists/* ~/.m2 ~/.npm ~/.node-gyp /usr/lib/node_modules
 
@@ -122,6 +122,7 @@ RUN apk add --no-cache \
       echo "6cc717b4de43240595662a2deef5447b06062e82380f5647196f07c9089284fa  en_NZ.zip"; \
       echo "9227f658f182c9cece797352f041a888134765c11bffc91951c010a73187baea  en_US.zip"; \
       echo "090285b721dcaabff51b467123f82a181a6904d187c90bda812c6e5f365ff19a  en_ZA.zip"; \
+      echo "63ce36baf97b6ce2f533f5e77027810a12d1a008fd2acc0d8397f084a742dfb3  nl_NL.zip"; \
     } > /tmp/hunspell-sha256sum.txt \
  && cd /tmp/hunspell \
  && for file in $(awk '{print $2}' /tmp/hunspell-sha256sum.txt); do \

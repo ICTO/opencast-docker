@@ -14,8 +14,8 @@
 
 FROM openjdk:8-jdk-slim-stretch AS build
 
-ARG repo="https://github.com/opencast/opencast.git"
-ARG branch="5.2"
+ARG repo="https://github.com/mm-dict/opencast.git"
+ARG branch="r/7.x-ugent"
 
 ENV OPENCAST_DISTRIBUTION="ingest" \
     OPENCAST_SRC="/usr/src/opencast" \
@@ -24,6 +24,10 @@ ENV OPENCAST_DISTRIBUTION="ingest" \
     OPENCAST_GID="800" \
     OPENCAST_REPO="${repo}" \
     OPENCAST_BRANCH="${branch}"
+
+
+RUN mkdir /root/.m2
+COPY assets/settings.xml /root/.m2/settings.xml
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
@@ -43,22 +47,22 @@ FROM quay.io/mtneug/synfig-core AS synfig
 FROM alpine:edge
 LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.version="5.2" \
+      org.label-schema.version="7.x" \
       org.label-schema.name="opencast-ingest" \
       org.label-schema.description="Docker image for the Opencast ingest distribution" \
-      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/5.2/README.md" \
+      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/7.x/README.md" \
       org.label-schema.url="http://www.opencast.org/" \
       org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
       org.label-schema.vendor="University of Münster" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER sh" \
-      org.label-schema.docker.cmd.help="docker run --rm quay.io/opencast/ingest:5.2 app:help"
+      org.label-schema.docker.cmd.help="docker run --rm quay.io/opencast/ingest:7.x app:help"
 
 ENV LANG="C.UTF-8" \
     JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk" \
     PATH="$PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin" \
     HUNSPELL_BASE_URL="http://download.services.openoffice.org/contrib/dictionaries" \
     \
-    OPENCAST_VERSION="5.2" \
+    OPENCAST_VERSION="7.x" \
     OPENCAST_DISTRIBUTION="ingest" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \
@@ -118,6 +122,7 @@ RUN apk add --no-cache \
       echo "6cc717b4de43240595662a2deef5447b06062e82380f5647196f07c9089284fa  en_NZ.zip"; \
       echo "9227f658f182c9cece797352f041a888134765c11bffc91951c010a73187baea  en_US.zip"; \
       echo "090285b721dcaabff51b467123f82a181a6904d187c90bda812c6e5f365ff19a  en_ZA.zip"; \
+      echo "63ce36baf97b6ce2f533f5e77027810a12d1a008fd2acc0d8397f084a742dfb3  nl_NL.zip"; \
     } > /tmp/hunspell-sha256sum.txt \
  && cd /tmp/hunspell \
  && for file in $(awk '{print $2}' /tmp/hunspell-sha256sum.txt); do \
