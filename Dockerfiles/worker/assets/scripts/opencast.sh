@@ -54,7 +54,7 @@ opencast_opencast_check() {
 
 opencast_opencast_configure() {
   echo "Run opencast_opencast_configure"
-  opencast_helper_replaceinfile "etc/custom.properties" \
+  opencast_helper_replaceinfile "${OPENCAST_CONFIG}/custom.properties" \
     "ORG_OPENCASTPROJECT_ADMIN_EMAIL" \
     "ORG_OPENCASTPROJECT_SERVER_URL" \
     "ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER" \
@@ -63,12 +63,12 @@ opencast_opencast_configure() {
     "ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS" \
     "ORG_OPENCASTPROJECT_DOWNLOAD_URL"
 
-  opencast_helper_replaceinfile "etc/org.opencastproject.organization-mh_default_org.cfg" \
+  opencast_helper_replaceinfile "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg" \
     "PROP_ORG_OPENCASTPROJECT_FILE_REPO_URL" \
     "PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL" \
     "PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL"
 
   if opencast_helper_dist_migration ; then
-    opencast_helper_replaceinfile "etc/custom.properties" "ORG_OPENCASTPROJECT_MIGRATION_ORGANIZATION"
+    opencast_helper_replaceinfile "${OPENCAST_CONFIG}/custom.properties" "ORG_OPENCASTPROJECT_MIGRATION_ORGANIZATION"
   fi
 }

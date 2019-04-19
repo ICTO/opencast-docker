@@ -28,7 +28,7 @@ opencast_activemq_check() {
 opencast_activemq_configure() {
   echo "Run opencast_activemq_configure"
 
-  opencast_helper_replaceinfile "etc/custom.properties" \
+  opencast_helper_replaceinfile "${OPENCAST_CONFIG}/custom.properties" \
     "ACTIVEMQ_BROKER_URL" \
     "ACTIVEMQ_BROKER_USERNAME" \
     "ACTIVEMQ_BROKER_PASSWORD"
