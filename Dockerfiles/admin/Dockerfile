@@ -135,10 +135,8 @@ RUN apk add --no-cache \
 
 RUN chown -R "${OPENCAST_USER}":0 \
       /opencast \
-      /etc/opencast \
  && chmod -R g+rw \
-      /opencast \
-      /etc/opencast 
+      /opencast 
 
 WORKDIR "${OPENCAST_HOME}"
 
