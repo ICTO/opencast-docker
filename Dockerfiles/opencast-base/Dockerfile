@@ -25,7 +25,7 @@ ENV LANG="C.UTF-8" \
 
 ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
     OPENCAST_SUPPORT="${OPENCAST_HOME}/docker/support" \
-    OPENCAST_CONFIG="${OPENCAST_HOME}/etc" \
+    OPENCAST_CONFIG="${OPENCAST_HOME}/etc" 
 
 RUN addgroup -S -g "${OPENCAST_GID}" "${OPENCAST_GROUP}" \
  && adduser -S -D -H -G "${OPENCAST_GROUP}" -h "${OPENCAST_HOME}" -u "${OPENCAST_UID}" "${OPENCAST_USER}" \
