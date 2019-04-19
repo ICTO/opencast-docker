@@ -34,7 +34,7 @@ opencast_jdbc_configure() {
 
   export ORG_OPENCASTPROJECT_DB_DDL_GENERATION="${ORG_OPENCASTPROJECT_DB_DDL_GENERATION:-false}"
 
-  opencast_helper_replaceinfile "${OPENCAST_CONFIG}/etc/custom.properties" \
+  opencast_helper_replaceinfile "${OPENCAST_CONFIG}/custom.properties" \
     "ORG_OPENCASTPROJECT_DB_VENDOR" \
     "ORG_OPENCASTPROJECT_DB_DDL_GENERATION" \
     "ORG_OPENCASTPROJECT_DB_JDBC_DRIVER" \
