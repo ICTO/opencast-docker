@@ -46,10 +46,10 @@ opencast_jdbc_configure() {
 opencast_jdbc_trytoconnect() {
   echo "Run opencast_jdbc_trytoconnect"
 
-  driver=$(grep "^org.opencastproject.db.jdbc.driver" ${OPENCAST_CONFIG}/etc/custom.properties | tr -d ' ' | cut -d '=' -f 2-)
-  url=$(grep "^org.opencastproject.db.jdbc.url" ${OPENCAST_CONFIG}/etc/custom.properties | tr -d ' ' | cut -d '=' -f 2-)
-  user=$(grep "^org.opencastproject.db.jdbc.user" ${OPENCAST_CONFIG}/etc/custom.properties | tr -d ' ' | cut -d '=' -f 2-)
-  password=$(grep "^org.opencastproject.db.jdbc.pass" ${OPENCAST_CONFIG}/etc/custom.properties | tr -d ' ' | cut -d '=' -f 2-)
+  driver=$(grep "^org.opencastproject.db.jdbc.driver" ${OPENCAST_CONFIG}/custom.properties | tr -d ' ' | cut -d '=' -f 2-)
+  url=$(grep "^org.opencastproject.db.jdbc.url" ${OPENCAST_CONFIG}/custom.properties | tr -d ' ' | cut -d '=' -f 2-)
+  user=$(grep "^org.opencastproject.db.jdbc.user" ${OPENCAST_CONFIG}/custom.properties | tr -d ' ' | cut -d '=' -f 2-)
+  password=$(grep "^org.opencastproject.db.jdbc.pass" ${OPENCAST_CONFIG}/custom.properties | tr -d ' ' | cut -d '=' -f 2-)
   db_jar=$(find "${OPENCAST_HOME}/system/org/opencastproject" -name 'opencast-db-*.jar')
 
   java -cp "${OPENCAST_SCRIPTS}:${db_jar}" \
