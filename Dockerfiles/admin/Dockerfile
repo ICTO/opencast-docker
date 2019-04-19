@@ -20,6 +20,8 @@ ARG branch="r/7.x-ugent"
 ENV OPENCAST_DISTRIBUTION="admin" \
     OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_HOME="/opencast" \
+    OPENCAST_USER="opencast" \
+    OPENCAST_GROUP="opencast" \
     OPENCAST_UID="800" \
     OPENCAST_GID="800" \
     OPENCAST_REPO="${repo}" \
@@ -80,15 +82,15 @@ ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
 RUN addgroup -S -g "${OPENCAST_GID}" "${OPENCAST_GROUP}" \
  && adduser -S -D -H -G "${OPENCAST_GROUP}" -h "${OPENCAST_HOME}" -u "${OPENCAST_UID}" "${OPENCAST_USER}" \
  && mkdir -p "${OPENCAST_DATA}" \
- && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_DATA}"
+ && chown -R "${OPENCAST_USER}":0 "${OPENCAST_DATA}"
 
-COPY --chown=opencast:opencast --from=build "${OPENCAST_HOME}" "${OPENCAST_HOME}"
-COPY --chown=opencast:opencast assets/scripts "${OPENCAST_SCRIPTS}"
-COPY --chown=opencast:opencast assets/support "${OPENCAST_SUPPORT}"
-COPY --chown=opencast:opencast assets/etc/* "${OPENCAST_CONFIG}/"
-COPY --chown=opencast:opencast assets/etc/index/adminui/settings.yml "${OPENCAST_CONFIG}/index/adminui/"
-COPY --chown=opencast:opencast assets/etc/index/externalapi/settings.yml "${OPENCAST_CONFIG}/index/externalapi/"
-COPY assets/docker-entrypoint.sh assets/docker-healthcheck.sh /
+COPY --chown="${OPENCAST_USER}":0 --from=build "${OPENCAST_HOME}" "${OPENCAST_HOME}"
+COPY --chown="${OPENCAST_USER}":0 assets/scripts "${OPENCAST_SCRIPTS}"
+COPY --chown="${OPENCAST_USER}":0 assets/support "${OPENCAST_SUPPORT}"
+COPY --chown="${OPENCAST_USER}":0 assets/etc/* "${OPENCAST_CONFIG}/"
+COPY --chown="${OPENCAST_USER}":0 assets/etc/index/adminui/settings.yml "${OPENCAST_CONFIG}/index/adminui/"
+COPY --chown="${OPENCAST_USER}":0 assets/etc/index/externalapi/settings.yml "${OPENCAST_CONFIG}/index/externalapi/"
+COPY --chown="${OPENCAST_USER}":0 assets/docker-entrypoint.sh assets/docker-healthcheck.sh /
 
 COPY --from=synfig /usr/local/bin/ETL* /usr/local/bin/
 COPY --from=synfig /usr/local/bin/synfig* /usr/local/bin/
@@ -133,12 +135,19 @@ RUN apk add --no-cache \
  && cp *.aff *.dic /usr/share/hunspell \
  && rm -rf /tmp/*
 
+RUN chown -R "${OPENCAST_USER}":0 \
+      /opencast \
+      /etc/opencast \
+ && chmod -R g+rw \
+      /opencast \
+      /etc/opencast 
+
 WORKDIR "${OPENCAST_HOME}"
 
 EXPOSE 8080
 VOLUME [ "${OPENCAST_DATA}" ]
 
-USER opencast
+USER "${OPENCAST_USER}"
 
 HEALTHCHECK --timeout=10s CMD /docker-healthcheck.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
