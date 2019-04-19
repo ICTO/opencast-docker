@@ -20,8 +20,6 @@ ARG branch="r/7.x-ugent"
 ENV OPENCAST_DISTRIBUTION="admin" \
     OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_HOME="/opencast" \
-    OPENCAST_USER="opencast" \
-    OPENCAST_GROUP="opencast" \
     OPENCAST_UID="800" \
     OPENCAST_GID="800" \
     OPENCAST_REPO="${repo}" \
@@ -40,7 +38,7 @@ RUN apt-get update \
  && git clone --recursive "${OPENCAST_REPO}" "${OPENCAST_SRC}" \
  && cd "${OPENCAST_SRC}" \
  && git checkout "${OPENCAST_BRANCH}" \
- && mvn clean install -DskipTests=true -Dcheckstyle.skip=true -DskipJasmineTests=true` \
+ && mvn --quiet --batch-mode install -DskipTests=true -Dcheckstyle.skip=true -DskipJasmineTests=true \
  && tar -xzf build/opencast-dist-${OPENCAST_DISTRIBUTION}-*.tar.gz --strip 1 -C "${OPENCAST_HOME}" \
  && rm -rf "${OPENCAST_SRC}" /tmp/* /var/lib/apt/lists/* ~/.m2 ~/.npm ~/.node-gyp /usr/lib/node_modules
 
