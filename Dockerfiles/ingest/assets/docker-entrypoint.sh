@@ -19,8 +19,9 @@ set -e
 # shellcheck source=./scripts/helper.sh
 . "${OPENCAST_SCRIPTS}/helper.sh"
 # shellcheck source=./scripts/tz.sh
-. "${OPENCAST_SCRIPTS}/tz.sh"
+# . "${OPENCAST_SCRIPTS}/tz.sh"
 # shellcheck source=./scripts/opencast.sh
+. "${OPENCAST_SCRIPTS}/basic-init.sh"
 . "${OPENCAST_SCRIPTS}/opencast.sh"
 # shellcheck source=./scripts/activemq.sh
 . "${OPENCAST_SCRIPTS}/activemq.sh"
@@ -61,7 +62,8 @@ opencast_main_init() {
   echo "Run opencast_main_init"
 
   opencast_file_env
-  opencast_tz_set
+  opencast_init_configure_user
+#  opencast_tz_set
 
   if opencast_helper_customconfig; then
     echo "Found custom config in ${OPENCAST_CUSTOM_CONFIG}"
@@ -86,7 +88,7 @@ opencast_main_start() {
 
   if opencast_helper_dist_develop; then
     export DEFAULT_JAVA_DEBUG_OPTS="${DEFAULT_JAVA_DEBUG_OPTS:--Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005}"
-    exec su-exec "${OPENCAST_USER}":"${OPENCAST_GROUP}" bin/start-opencast debug
+    $OPENCAST_HOME/bin/start-opencast debug
   elif opencast_helper_dist_migration; then
     echo
     echo "##############################################################################"
@@ -97,10 +99,10 @@ opencast_main_start() {
     echo "###############################################################################"
     echo
     read -r
-    exec su-exec "${OPENCAST_USER}":"${OPENCAST_GROUP}" bin/start-opencast
+    $OPENCAST_HOME/bin/start-opencast
   fi
 
-  su-exec "${OPENCAST_USER}":"${OPENCAST_GROUP}" bin/start-opencast daemon &
+  $OPENCAST_HOME/bin/start-opencast daemon &
   OC_PID=$!
   trap opencast_main_stop TERM INT
 
@@ -119,7 +121,7 @@ opencast_main_start() {
 opencast_main_stop() {
   echo "Run opencast_main_stop"
 
-  bin/stop-opencast &
+  $OPENCAST_HOME/bin/stop-opencast &
 }
 
 case ${1} in
