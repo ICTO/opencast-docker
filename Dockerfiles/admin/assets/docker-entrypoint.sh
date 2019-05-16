@@ -85,6 +85,7 @@ opencast_main_start() {
   # function will only be called once per container start when no other
   # processes are running. We therefore can just clean up the old pid file.
   rm -rf /opencast/data/pid /opencast/instances/instance.properties
+  rm -rf /opencast/data/cache
 
   if opencast_helper_dist_develop; then
     export DEFAULT_JAVA_DEBUG_OPTS="${DEFAULT_JAVA_DEBUG_OPTS:--Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005}"
