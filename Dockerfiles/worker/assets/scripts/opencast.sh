@@ -19,7 +19,7 @@ set -e
 export ORG_OPENCASTPROJECT_SERVER_URL="${ORG_OPENCASTPROJECT_SERVER_URL:-http://$(hostname -f):8080}"
 export ORG_OPENCASTPROJECT_ADMIN_EMAIL="${ORG_OPENCASTPROJECT_ADMIN_EMAIL:-admin@localhost}"
 export ORG_OPENCASTPROJECT_DOWNLOAD_URL="${ORG_OPENCASTPROJECT_DOWNLOAD_URL:-\$\{org.opencastproject.server.url\}/static}"
-export PROP_ORG_OPENCASTPROJECT_PLAYER="${PROP_ORG_OPENCASTPROJECT_PLAYER:-/paella/ui/watch.html}"
+export PROP_ORG_OPENCASTPROJECT_PLAYER="${PROP_ORG_OPENCASTPROJECT_PLAYER:-/paella/ui/watch.html?\{\{id\}\}}"
 
 if opencast_helper_dist_allinone || opencast_helper_dist_develop; then
   # shellcheck disable=SC2016
@@ -50,7 +50,9 @@ opencast_opencast_check() {
     "ORG_OPENCASTPROJECT_STREAMING_URL" \
     "SOLR_SEARCH_URL" \
     "SOLR_SERIES_URL" \
-    "SOLR_WORKFLOW_URL"
+    "SOLR_WORKFLOW_URL" \
+    "ELASTIC_SERVER_ADDRESS" \
+    "ELASTIC_SERVER_PORT"
 
   if opencast_helper_dist_migration ; then
     opencast_helper_checkforvariables "ORG_OPENCASTPROJECT_MIGRATION_ORGANIZATION"
@@ -71,7 +73,9 @@ opencast_opencast_configure() {
     "ORG_OPENCASTPROJECT_ADAPTIVE_STREAMING_URL" \
     "SOLR_SEARCH_URL" \
     "SOLR_SERIES_URL" \
-    "SOLR_WORKFLOW_URL"
+    "SOLR_WORKFLOW_URL" \
+    "ELASTIC_SERVER_ADDRESS" \
+    "ELASTIC_SERVER_PORT"
 
   opencast_helper_replaceinfile "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg" \
     "PROP_ORG_OPENCASTPROJECT_FILE_REPO_URL" \
