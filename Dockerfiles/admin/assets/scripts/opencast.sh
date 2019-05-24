@@ -19,8 +19,7 @@ set -e
 export ORG_OPENCASTPROJECT_SERVER_URL="${ORG_OPENCASTPROJECT_SERVER_URL:-http://$(hostname -f):8080}"
 export ORG_OPENCASTPROJECT_ADMIN_EMAIL="${ORG_OPENCASTPROJECT_ADMIN_EMAIL:-admin@localhost}"
 export ORG_OPENCASTPROJECT_DOWNLOAD_URL="${ORG_OPENCASTPROJECT_DOWNLOAD_URL:-\$\{org.opencastproject.server.url\}/static}"
-export PROP_ORG_OPENCASTPROJECT_PLAYER="${PROP_ORG_OPENCASTPROJECT_PLAYER:-/paella/ui/watch.html?#\{id\}}"
-export LOG_LEVEL="${LOG_LEVEL:-INFO}"
+export PROP_ORG_OPENCASTPROJECT_PLAYER="${PROP_ORG_OPENCASTPROJECT_PLAYER:-/paella/ui/watch.html?\{\{id\}\}}"
 
 if opencast_helper_dist_allinone || opencast_helper_dist_develop; then
   # shellcheck disable=SC2016
@@ -76,16 +75,13 @@ opencast_opencast_configure() {
     "SOLR_SERIES_URL" \
     "SOLR_WORKFLOW_URL" \
     "ELASTIC_SERVER_ADDRESS" \
-    "ELASTIC_SERVER_PORT" 
+    "ELASTIC_SERVER_PORT"
 
   opencast_helper_replaceinfile "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg" \
     "PROP_ORG_OPENCASTPROJECT_FILE_REPO_URL" \
     "PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL" \
     "PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL" \
     "PROP_ORG_OPENCASTPROJECT_PLAYER"
-    
-  opencast_helper_replaceinfile "${OPENCAST_CONFIG}/org.ops4j.pax.logging.cfg" \
-    "LOG_LEVEL"
 
   if opencast_helper_dist_migration ; then
     opencast_helper_replaceinfile "${OPENCAST_CONFIG}/custom.properties" "ORG_OPENCASTPROJECT_MIGRATION_ORGANIZATION"
