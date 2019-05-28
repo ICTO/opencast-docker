@@ -79,8 +79,6 @@ COPY --chown="${OPENCAST_USER}":0 --from=build "${OPENCAST_HOME}" "${OPENCAST_HO
 COPY --chown="${OPENCAST_USER}":0 assets/scripts "${OPENCAST_SCRIPTS}"
 COPY --chown="${OPENCAST_USER}":0 assets/support "${OPENCAST_SUPPORT}"
 COPY --chown="${OPENCAST_USER}":0 assets/etc/* "${OPENCAST_CONFIG}/"
-COPY --chown="${OPENCAST_USER}":0 assets/etc/index/adminui/settings.yml "${OPENCAST_CONFIG}/index/adminui/"
-COPY --chown="${OPENCAST_USER}":0 assets/etc/index/externalapi/settings.yml "${OPENCAST_CONFIG}/index/externalapi/"
 COPY --chown="${OPENCAST_USER}":0 assets/docker-entrypoint.sh assets/docker-healthcheck.sh /
 
 COPY --from=synfig /usr/local/bin/ETL* /usr/local/bin/
