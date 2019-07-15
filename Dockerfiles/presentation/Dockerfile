@@ -15,7 +15,7 @@
 FROM openjdk:8-jdk-slim-stretch AS build
 
 ARG repo="https://github.com/mm-dict/opencast.git"
-ARG branch="7.0-ugent"
+ARG branch="r/7.x-ugent"
 
 ENV OPENCAST_DISTRIBUTION="presentation" \
     OPENCAST_SRC="/usr/src/opencast" \
@@ -48,7 +48,7 @@ FROM quay.io/mtneug/synfig-core AS synfig
 FROM docker-registry.default.svc:5000/opencast/opencast-base:7.x
 LABEL maintainer="UGent Multimedia <multimedia@ugent.be>" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.version="7.0" \
+      org.label-schema.version="7.1" \
       org.label-schema.name="opencast-presentation" \
       org.label-schema.description="Docker image for the Opencast presentation distribution" \
       org.label-schema.usage="https://github.com/mm-dict/opencast-docker/blob/5.2/README.md" \
@@ -60,7 +60,7 @@ ENV LANG="C.UTF-8" \
     JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk" \
     PATH="$PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin" \
     \
-    OPENCAST_VERSION="7.0" \
+    OPENCAST_VERSION="7.1" \
     OPENCAST_DISTRIBUTION="presentation" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \
