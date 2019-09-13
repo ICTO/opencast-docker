@@ -29,6 +29,7 @@ ENV OPENCAST_DISTRIBUTION="admin" \
 RUN mkdir /root/.m2
 COPY assets/settings.xml /root/.m2/settings.xml
 
+RUN mkdir -p /usr/share/man/man1mkdir -p /usr/share/man/man1
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
       tar gzip git \
