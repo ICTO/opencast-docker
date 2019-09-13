@@ -32,7 +32,7 @@ COPY assets/settings.xml /root/.m2/settings.xml
 RUN mkdir -p /usr/share/man/man1mkdir -p /usr/share/man/man1
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
-      tar gzip git \
+      tar gzip git bzip2 \
       ca-certificates openssl \
       maven make gcc g++ libc-dev \
  && mkdir -p "${OPENCAST_SRC}" "${OPENCAST_HOME}"
