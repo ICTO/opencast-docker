@@ -38,17 +38,17 @@ set -e
 opencast_main_check() {
   echo "Run opencast_main_check"
 
-  opencast_opencast_check
-  opencast_activemq_check
-  opencast_db_check
+  #opencast_opencast_check
+  #opencast_activemq_check
+  #opencast_db_check
 }
 
 opencast_main_configure() {
   echo "Run opencast_main_configure"
 
-  opencast_opencast_configure
-  opencast_activemq_configure
-  opencast_db_configure
+  #opencast_opencast_configure
+  #opencast_activemq_configure
+  #opencast_db_configure
 }
 
 opencast_file_env() {
