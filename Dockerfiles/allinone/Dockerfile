@@ -14,8 +14,8 @@
 
 FROM openjdk:8-jdk-slim-stretch AS build
 
-ARG repo="https://github.com/opencast/opencast.git"
-ARG branch="5.2"
+ARG repo="https://github.com/mm-dict/opencast.git"
+ARG branch="r/7.x-ugent"
 
 ENV OPENCAST_DISTRIBUTION="allinone" \
     OPENCAST_SRC="/usr/src/opencast" \
@@ -23,15 +23,21 @@ ENV OPENCAST_DISTRIBUTION="allinone" \
     OPENCAST_UID="800" \
     OPENCAST_GID="800" \
     OPENCAST_REPO="${repo}" \
-    OPENCAST_BRANCH="${branch}"
+    OPENCAST_BRANCH="${branch}" \
+    MAVEN_MIRROR_URL="http://nexus.opencast.svc.cluster.local:8081/nexus/content/groups/public"
 
+RUN mkdir /root/.m2
+COPY assets/settings.xml /root/.m2/settings.xml
+
+RUN mkdir -p /usr/share/man/man1mkdir -p /usr/share/man/man1
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
-      tar gzip git \
+      tar gzip git bzip2 \
       ca-certificates openssl \
       maven make gcc g++ libc-dev \
- && mkdir -p "${OPENCAST_SRC}" "${OPENCAST_HOME}" \
- && git clone --recursive "${OPENCAST_REPO}" "${OPENCAST_SRC}" \
+ && mkdir -p "${OPENCAST_SRC}" "${OPENCAST_HOME}"
+ 
+ RUN git clone --recursive "${OPENCAST_REPO}" "${OPENCAST_SRC}" \
  && cd "${OPENCAST_SRC}" \
  && git checkout "${OPENCAST_BRANCH}" \
  && mvn --quiet --batch-mode install -DskipTests=true -Dcheckstyle.skip=true -DskipJasmineTests=true \
@@ -40,25 +46,22 @@ RUN apt-get update \
 
 FROM quay.io/mtneug/synfig-core AS synfig
 
-FROM alpine:edge
-LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
+FROM docker-registry.default.svc:5000/opencast/opencast-base:7.x
+LABEL maintainer="UGent Multimedia <multimedia@ugent.be>" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.version="5.2" \
+      org.label-schema.version="7.1" \
       org.label-schema.name="opencast-allinone" \
       org.label-schema.description="Docker image for the Opencast allinone distribution" \
-      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/5.2/README.md" \
+      org.label-schema.usage="https://github.com/mm-dict/opencast-docker/blob/5.2/README.md" \
       org.label-schema.url="http://www.opencast.org/" \
-      org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
-      org.label-schema.vendor="University of Münster" \
-      org.label-schema.docker.debug="docker exec -it $CONTAINER sh" \
-      org.label-schema.docker.cmd.help="docker run --rm quay.io/opencast/allinone:5.2 app:help"
+      org.label-schema.vcs-url="https://github.com/mm-dict/opencast-docker" \
+      org.label-schema.vendor="Ghent University" 
 
 ENV LANG="C.UTF-8" \
     JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk" \
     PATH="$PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin" \
-    HUNSPELL_BASE_URL="http://download.services.openoffice.org/contrib/dictionaries" \
     \
-    OPENCAST_VERSION="5.2" \
+    OPENCAST_VERSION="7.4" \
     OPENCAST_DISTRIBUTION="allinone" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \
@@ -73,18 +76,11 @@ ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
     OPENCAST_REPO="${repo}" \
     OPENCAST_BRANCH="${branch}"
 
-RUN addgroup -S -g "${OPENCAST_GID}" "${OPENCAST_GROUP}" \
- && adduser -S -D -H -G "${OPENCAST_GROUP}" -h "${OPENCAST_HOME}" -u "${OPENCAST_UID}" "${OPENCAST_USER}" \
- && mkdir -p "${OPENCAST_DATA}" \
- && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_DATA}"
-
-COPY --chown=opencast:opencast --from=build "${OPENCAST_HOME}" "${OPENCAST_HOME}"
-COPY --chown=opencast:opencast assets/scripts "${OPENCAST_SCRIPTS}"
-COPY --chown=opencast:opencast assets/support "${OPENCAST_SUPPORT}"
-COPY --chown=opencast:opencast assets/etc/* "${OPENCAST_CONFIG}/"
-COPY --chown=opencast:opencast assets/etc/index/adminui/settings.yml "${OPENCAST_CONFIG}/index/adminui/"
-COPY --chown=opencast:opencast assets/etc/index/externalapi/settings.yml "${OPENCAST_CONFIG}/index/externalapi/"
-COPY assets/docker-entrypoint.sh assets/docker-healthcheck.sh /
+COPY --chown="${OPENCAST_USER}":0 --from=build "${OPENCAST_HOME}" "${OPENCAST_HOME}"
+COPY --chown="${OPENCAST_USER}":0 assets/scripts "${OPENCAST_SCRIPTS}"
+COPY --chown="${OPENCAST_USER}":0 assets/support "${OPENCAST_SUPPORT}"
+COPY --chown="${OPENCAST_USER}":0 assets/etc/* "${OPENCAST_CONFIG}/"
+COPY --chown="${OPENCAST_USER}":0 assets/docker-entrypoint.sh assets/docker-healthcheck.sh /
 
 COPY --from=synfig /usr/local/bin/ETL* /usr/local/bin/
 COPY --from=synfig /usr/local/bin/synfig* /usr/local/bin/
@@ -93,45 +89,22 @@ COPY --from=synfig /usr/local/lib/libsynfig.* /usr/local/lib/
 COPY --from=synfig /usr/local/lib/synfig/modules /usr/local/lib/synfig/modules
 COPY --from=synfig /usr/local/share/locale /usr/local/share/locale
 
-RUN apk add --no-cache \
-      openjdk8 \
-      bash su-exec openssl tzdata curl jq \
-      fontconfig ttf-dejavu ttf-freefont ttf-liberation ttf-linux-libertine \
-      ffmpeg sox hunspell tesseract-ocr \
-      nfs-utils \
-  \
- && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing \
-      boost boost-program_options boost-system boost-filesystem zlib libsigc++ glibmm cairo fftw pango gettext \
-      imagemagick6 imagemagick6-dev libjpeg-turbo libtool libdv-tools \
-      libxml++-2.6 mlt \
- && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.7/main \
-      swfdec \
- && ln -s /usr/bin/convert-6 /usr/local/bin/convert \
-  \
- && javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java" \
-  \
- && mkdir -p /tmp/hunspell /usr/share/hunspell \
- && { \
-      echo "22e217a631977d7b377f8dd22d2bbacd2d36b32765ce13f3474b03a4a97dd700  en_AU.zip"; \
-      echo "31fac12a1b520cde686f328d3fa7560f6eba772cddc872197ff842c57a0dc1ea  en_CA.zip"; \
-      echo "5869d8bd80eb2eb328ebe36b356348de4ae2acb1db6df39d1717d33f89f63728  en_GB.zip"; \
-      echo "6cc717b4de43240595662a2deef5447b06062e82380f5647196f07c9089284fa  en_NZ.zip"; \
-      echo "9227f658f182c9cece797352f041a888134765c11bffc91951c010a73187baea  en_US.zip"; \
-      echo "090285b721dcaabff51b467123f82a181a6904d187c90bda812c6e5f365ff19a  en_ZA.zip"; \
-    } > /tmp/hunspell-sha256sum.txt \
- && cd /tmp/hunspell \
- && for file in $(awk '{print $2}' /tmp/hunspell-sha256sum.txt); do \
-      curl -L -o "${file}" "${HUNSPELL_BASE_URL}/${file}"; \
-      grep "${file}" /tmp/hunspell-sha256sum.txt | sha256sum -c -; \
-      unzip "/tmp/hunspell/${file}"; \
-    done \
- && cp *.aff *.dic /usr/share/hunspell \
- && rm -rf /tmp/*
+RUN javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java" 
+
+RUN chown -R "${OPENCAST_USER}":0 \
+      "${OPENCAST_HOME}" \
+      /etc/passwd \
+ && chmod -R g+rw \
+      "${OPENCAST_HOME}" \
+      /etc/passwd \
+ && chmod -R g+rwx "${OPENCAST_HOME}"/bin
 
 WORKDIR "${OPENCAST_HOME}"
 
 EXPOSE 8080
 VOLUME [ "${OPENCAST_DATA}" ]
+
+USER "${OPENCAST_USER}"
 
 HEALTHCHECK --timeout=10s CMD /docker-healthcheck.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
