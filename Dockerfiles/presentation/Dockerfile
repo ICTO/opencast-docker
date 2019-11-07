@@ -15,7 +15,7 @@
 FROM openjdk:8-jdk-slim-stretch AS build
 
 ARG repo="https://github.com/mm-dict/opencast.git"
-ARG branch="r/7.x-ugent"
+ARG branch="fix-largefiles"
 
 ENV OPENCAST_DISTRIBUTION="presentation" \
     OPENCAST_SRC="/usr/src/opencast" \
