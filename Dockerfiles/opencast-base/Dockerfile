@@ -1,7 +1,7 @@
 FROM alpine:edge
 LABEL maintainer="UGent Multimedia <multimedia@ugent.be>" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.version="7.x" \
+      org.label-schema.version="8.x" \
       org.label-schema.name="opencast-base" \
       org.label-schema.description="Docker image for the Opencast base" \
       org.label-schema.usage="https://github.com/mm-dict/opencast-docker/blob/5.2/README.md" \
@@ -14,7 +14,7 @@ ENV LANG="C.UTF-8" \
     PATH="$PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin" \
     HUNSPELL_BASE_URL="http://download.services.openoffice.org/contrib/dictionaries" \
     \
-    OPENCAST_VERSION="7.x" \
+    OPENCAST_VERSION="8.x" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \
     OPENCAST_CUSTOM_CONFIG="/etc/opencast" \
