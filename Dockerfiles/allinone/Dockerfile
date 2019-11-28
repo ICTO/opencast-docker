@@ -27,6 +27,7 @@ ENV OPENCAST_DISTRIBUTION="allinone" \
     MAVEN_MIRROR_URL="http://nexus.opencast.svc.cluster.local:8081/nexus/content/groups/public"
 
 RUN mkdir /root/.m2
+RUN echo '{ "allow_root": true }' > /root/.bowerrc
 COPY assets/settings.xml /root/.m2/settings.xml
 
 RUN mkdir -p /usr/share/man/man1mkdir -p /usr/share/man/man1
