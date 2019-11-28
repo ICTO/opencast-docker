@@ -37,7 +37,7 @@ RUN apk add --no-cache \
       bash su-exec openssl tzdata curl jq \
       fontconfig ttf-dejavu ttf-freefont ttf-liberation ttf-linux-libertine \
       ffmpeg sox hunspell tesseract-ocr \
-      nfs-utils musl-glibc \
+      nfs-utils \
   \
  && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing \
       boost boost-program_options boost-system boost-filesystem zlib libsigc++ glibmm cairo fftw pango gettext \
