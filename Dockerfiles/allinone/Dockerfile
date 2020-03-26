@@ -15,7 +15,7 @@
 FROM openjdk:8-jdk-slim-stretch AS build
 
 ARG repo="https://github.com/mm-dict/opencast.git"
-ARG branch="r/8.x-ugent"
+ARG branch="r/8.x"
 
 ENV OPENCAST_DISTRIBUTION="allinone" \
     OPENCAST_SRC="/usr/src/opencast" \
@@ -23,12 +23,9 @@ ENV OPENCAST_DISTRIBUTION="allinone" \
     OPENCAST_UID="800" \
     OPENCAST_GID="800" \
     OPENCAST_REPO="${repo}" \
-    OPENCAST_BRANCH="${branch}" \
-    MAVEN_MIRROR_URL="http://nexus.opencast.svc.cluster.local:8081/nexus/content/groups/public"
+    OPENCAST_BRANCH="${branch}"
 
-RUN mkdir /root/.m2
 RUN echo '{ "allow_root": true }' > /root/.bowerrc
-COPY assets/settings.xml /root/.m2/settings.xml
 
 RUN mkdir -p /usr/share/man/man1mkdir -p /usr/share/man/man1
 RUN apt-get update \
@@ -37,7 +34,7 @@ RUN apt-get update \
       ca-certificates openssl \
       maven make gcc g++ libc-dev \
  && mkdir -p "${OPENCAST_SRC}" "${OPENCAST_HOME}"
- 
+
  RUN git clone --recursive "${OPENCAST_REPO}" "${OPENCAST_SRC}" \
  && cd "${OPENCAST_SRC}" \
  && git checkout "${OPENCAST_BRANCH}" \
@@ -56,7 +53,7 @@ LABEL maintainer="UGent Multimedia <multimedia@ugent.be>" \
       org.label-schema.usage="https://github.com/mm-dict/opencast-docker/blob/5.2/README.md" \
       org.label-schema.url="http://www.opencast.org/" \
       org.label-schema.vcs-url="https://github.com/mm-dict/opencast-docker" \
-      org.label-schema.vendor="Ghent University" 
+      org.label-schema.vendor="Ghent University"
 
 ENV LANG="C.UTF-8" \
     JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk" \
@@ -90,7 +87,7 @@ COPY --from=synfig /usr/local/lib/libsynfig.* /usr/local/lib/
 COPY --from=synfig /usr/local/lib/synfig/modules /usr/local/lib/synfig/modules
 COPY --from=synfig /usr/local/share/locale /usr/local/share/locale
 
-RUN javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java" 
+RUN javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java"
 
 RUN chown -R "${OPENCAST_USER}":0 \
       "${OPENCAST_HOME}" \
