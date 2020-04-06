@@ -44,7 +44,7 @@ RUN apt-get update \
 
 FROM quay.io/mtneug/synfig-core AS synfig
 
-FROM docker-registry.default.svc:5000/opencast-allinone/opencast-base:8.x
+FROM docker-registry.default.svc:5000/opencast-build/opencast-base:8.x
 LABEL maintainer="UGent Multimedia <multimedia@ugent.be>" \
       org.label-schema.schema-version="1.0" \
       org.label-schema.version="8.x" \
