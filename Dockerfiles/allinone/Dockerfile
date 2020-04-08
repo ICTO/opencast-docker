@@ -44,7 +44,7 @@ RUN apt-get update \
 
 FROM quay.io/mtneug/synfig-core AS synfig
 
-FROM image-registry.openshift-image-registry.svc:5000/opencast-build/opencast-base:8.x
+FROM quay.io/mm-dict/opencast-base:8.x
 
 LABEL maintainer="UGent Multimedia <multimedia@ugent.be>" \
       org.label-schema.schema-version="1.0" \
