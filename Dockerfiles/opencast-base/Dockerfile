@@ -1,4 +1,4 @@
-FROM alpine:edge
+FROM alpine:3.11
 LABEL maintainer="UGent Multimedia <multimedia@ugent.be>" \
       org.label-schema.schema-version="1.0" \
       org.label-schema.version="8.x" \
@@ -7,7 +7,7 @@ LABEL maintainer="UGent Multimedia <multimedia@ugent.be>" \
       org.label-schema.usage="https://github.com/mm-dict/opencast-docker/blob/5.2/README.md" \
       org.label-schema.url="http://www.opencast.org/" \
       org.label-schema.vcs-url="https://github.com/mm-dict/opencast-docker" \
-      org.label-schema.vendor="Ghent University" 
+      org.label-schema.vendor="Ghent University"
 
 ENV LANG="C.UTF-8" \
     JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk" \
@@ -25,7 +25,7 @@ ENV LANG="C.UTF-8" \
 
 ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
     OPENCAST_SUPPORT="${OPENCAST_HOME}/docker/support" \
-    OPENCAST_CONFIG="${OPENCAST_HOME}/etc" 
+    OPENCAST_CONFIG="${OPENCAST_HOME}/etc"
 
 RUN addgroup -S -g "${OPENCAST_GID}" "${OPENCAST_GROUP}" \
  && adduser -S -D -H -G "${OPENCAST_GROUP}" -h "${OPENCAST_HOME}" -u "${OPENCAST_UID}" "${OPENCAST_USER}" \
