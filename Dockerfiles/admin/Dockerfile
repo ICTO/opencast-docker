@@ -15,7 +15,7 @@
 FROM openjdk:8-jdk-slim-stretch AS build
 
 ARG repo="https://github.com/mm-dict/opencast.git"
-ARG branch="r/7.x-ugent"
+ARG branch="r/8.x-ugent"
 
 ENV OPENCAST_DISTRIBUTION="admin" \
     OPENCAST_SRC="/usr/src/opencast" \
@@ -23,11 +23,7 @@ ENV OPENCAST_DISTRIBUTION="admin" \
     OPENCAST_UID="800" \
     OPENCAST_GID="800" \
     OPENCAST_REPO="${repo}" \
-    OPENCAST_BRANCH="${branch}" \
-    MAVEN_MIRROR_URL="http://nexus.opencast.svc.cluster.local:8081/nexus/content/groups/public"
-
-RUN mkdir /root/.m2
-COPY assets/settings.xml /root/.m2/settings.xml
+    OPENCAST_BRANCH="${branch}"
 
 RUN mkdir -p /usr/share/man/man1mkdir -p /usr/share/man/man1
 RUN apt-get update \
@@ -36,7 +32,7 @@ RUN apt-get update \
       ca-certificates openssl \
       maven make gcc g++ libc-dev \
  && mkdir -p "${OPENCAST_SRC}" "${OPENCAST_HOME}"
- 
+
  RUN git clone --recursive "${OPENCAST_REPO}" "${OPENCAST_SRC}" \
  && cd "${OPENCAST_SRC}" \
  && git checkout "${OPENCAST_BRANCH}" \
@@ -46,22 +42,22 @@ RUN apt-get update \
 
 FROM quay.io/mtneug/synfig-core AS synfig
 
-FROM docker-registry.default.svc:5000/opencast/opencast-base:7.x
+FROM quay.io/mm-dict/opencast-base:8.x
 LABEL maintainer="UGent Multimedia <multimedia@ugent.be>" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.version="7.1" \
+      org.label-schema.version="8.x" \
       org.label-schema.name="opencast-admin" \
       org.label-schema.description="Docker image for the Opencast admin distribution" \
       org.label-schema.usage="https://github.com/mm-dict/opencast-docker/blob/5.2/README.md" \
       org.label-schema.url="http://www.opencast.org/" \
       org.label-schema.vcs-url="https://github.com/mm-dict/opencast-docker" \
-      org.label-schema.vendor="Ghent University" 
+      org.label-schema.vendor="Ghent University"
 
 ENV LANG="C.UTF-8" \
     JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk" \
     PATH="$PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin" \
     \
-    OPENCAST_VERSION="7.1" \
+    OPENCAST_VERSION="8.x" \
     OPENCAST_DISTRIBUTION="admin" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \
@@ -89,7 +85,7 @@ COPY --from=synfig /usr/local/lib/libsynfig.* /usr/local/lib/
 COPY --from=synfig /usr/local/lib/synfig/modules /usr/local/lib/synfig/modules
 COPY --from=synfig /usr/local/share/locale /usr/local/share/locale
 
-RUN javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java" 
+RUN javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java"
 
 RUN chown -R "${OPENCAST_USER}":0 \
       "${OPENCAST_HOME}" \

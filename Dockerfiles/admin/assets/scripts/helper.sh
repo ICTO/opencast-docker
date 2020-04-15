@@ -28,6 +28,10 @@ opencast_helper_dist_migration() {
   test "${OPENCAST_DISTRIBUTION}" = "migration"
 }
 
+opencast_helper_enable_cas() {
+  test "${OPENCAST_ENABLE_CAS}" = "true"
+}
+
 opencast_helper_customconfig() {
   test -d "${OPENCAST_CUSTOM_CONFIG}"
 }

@@ -36,6 +36,11 @@ if opencast_helper_dist_migration ; then
   export ORG_OPENCASTPROJECT_MIGRATION_ORGANIZATION="${ORG_OPENCASTPROJECT_MIGRATION_ORGANIZATION:-mh_default_org}"
 fi
 
+if opencast_helper_enable_cas; then
+  echo "Append opencast-security-cas bundle to the karaf features to support CAS login"
+  sed -i -e 's/transaction\/2.0.0/transaction\/2.0.0,\ \\/p;s/transaction\/2.0.0,\ \\/opencast-security-cas/' "${OPENCAST_CONFIG}/org.apache.karaf.features.cfg"
+fi
+
 opencast_opencast_check() {
   echo "Run opencast_opencast_check"
   opencast_helper_checkforvariables \
