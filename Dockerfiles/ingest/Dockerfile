@@ -23,11 +23,7 @@ ENV OPENCAST_DISTRIBUTION="ingest" \
     OPENCAST_UID="800" \
     OPENCAST_GID="800" \
     OPENCAST_REPO="${repo}" \
-    OPENCAST_BRANCH="${branch}" \
-    MAVEN_MIRROR_URL="http://nexus.opencast.svc.cluster.local:8081/nexus/content/groups/public"
-
-RUN mkdir /root/.m2
-COPY assets/settings.xml /root/.m2/settings.xml
+    OPENCAST_BRANCH="${branch}"
 
 RUN mkdir -p /usr/share/man/man1mkdir -p /usr/share/man/man1
 RUN apt-get update \
