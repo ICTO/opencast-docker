@@ -72,11 +72,11 @@ ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
     OPENCAST_REPO="${repo}" \
     OPENCAST_BRANCH="${branch}"
 
-COPY --chown="${OPENCAST_USER}":0 --from=build "${OPENCAST_HOME}" "${OPENCAST_HOME}"
-COPY --chown="${OPENCAST_USER}":0 assets/scripts "${OPENCAST_SCRIPTS}"
-COPY --chown="${OPENCAST_USER}":0 assets/support "${OPENCAST_SUPPORT}"
-COPY --chown="${OPENCAST_USER}":0 assets/etc/* "${OPENCAST_CONFIG}/"
-COPY --chown="${OPENCAST_USER}":0 assets/docker-entrypoint.sh assets/docker-healthcheck.sh /
+COPY --chown=opencast:0 --from=build "${OPENCAST_HOME}" "${OPENCAST_HOME}"
+COPY --chown=opencast:0 assets/scripts "${OPENCAST_SCRIPTS}"
+COPY --chown=opencast:0 assets/support "${OPENCAST_SUPPORT}"
+COPY --chown=opencast:0 assets/etc/* "${OPENCAST_CONFIG}/"
+COPY --chown=opencast:0 assets/docker-entrypoint.sh assets/docker-healthcheck.sh /
 
 COPY --from=synfig /usr/local/bin/ETL* /usr/local/bin/
 COPY --from=synfig /usr/local/bin/synfig* /usr/local/bin/

@@ -36,7 +36,7 @@ RUN apt-get update \
       ca-certificates openssl \
       maven make gcc g++ libc-dev \
  && mkdir -p "${OPENCAST_SRC}" "${OPENCAST_HOME}"
- 
+
  RUN git clone --recursive "${OPENCAST_REPO}" "${OPENCAST_SRC}" \
  && cd "${OPENCAST_SRC}" \
  && git checkout "${OPENCAST_BRANCH}" \
@@ -55,7 +55,7 @@ LABEL maintainer="UGent Multimedia <multimedia@ugent.be>" \
       org.label-schema.usage="https://github.com/mm-dict/opencast-docker/blob/5.2/README.md" \
       org.label-schema.url="http://www.opencast.org/" \
       org.label-schema.vcs-url="https://github.com/mm-dict/opencast-docker" \
-      org.label-schema.vendor="Ghent University" 
+      org.label-schema.vendor="Ghent University"
 
 ENV LANG="C.UTF-8" \
     JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk" \
@@ -76,13 +76,13 @@ ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
     OPENCAST_REPO="${repo}" \
     OPENCAST_BRANCH="${branch}"
 
-COPY --chown="${OPENCAST_USER}":0 --from=build "${OPENCAST_HOME}" "${OPENCAST_HOME}"
-COPY --chown="${OPENCAST_USER}":0 assets/scripts "${OPENCAST_SCRIPTS}"
-COPY --chown="${OPENCAST_USER}":0 assets/support "${OPENCAST_SUPPORT}"
-COPY --chown="${OPENCAST_USER}":0 assets/etc/* "${OPENCAST_CONFIG}/"
-COPY --chown="${OPENCAST_USER}":0 assets/etc/index/adminui/settings.yml "${OPENCAST_CONFIG}/index/adminui/"
-COPY --chown="${OPENCAST_USER}":0 assets/etc/index/externalapi/settings.yml "${OPENCAST_CONFIG}/index/externalapi/"
-COPY --chown="${OPENCAST_USER}":0 assets/docker-entrypoint.sh assets/docker-healthcheck.sh /
+COPY --chown=opencast:0 --from=build "${OPENCAST_HOME}" "${OPENCAST_HOME}"
+COPY --chown=opencast:0 assets/scripts "${OPENCAST_SCRIPTS}"
+COPY --chown=opencast:0 assets/support "${OPENCAST_SUPPORT}"
+COPY --chown=opencast:0 assets/etc/* "${OPENCAST_CONFIG}/"
+COPY --chown=opencast:0 assets/etc/index/adminui/settings.yml "${OPENCAST_CONFIG}/index/adminui/"
+COPY --chown=opencast:0 assets/etc/index/externalapi/settings.yml "${OPENCAST_CONFIG}/index/externalapi/"
+COPY --chown=opencast:0 assets/docker-entrypoint.sh assets/docker-healthcheck.sh /
 
 COPY --from=synfig /usr/local/bin/ETL* /usr/local/bin/
 COPY --from=synfig /usr/local/bin/synfig* /usr/local/bin/
@@ -91,7 +91,7 @@ COPY --from=synfig /usr/local/lib/libsynfig.* /usr/local/lib/
 COPY --from=synfig /usr/local/lib/synfig/modules /usr/local/lib/synfig/modules
 COPY --from=synfig /usr/local/share/locale /usr/local/share/locale
 
-RUN javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java" 
+RUN javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java"
 
 RUN chown -R "${OPENCAST_USER}":0 \
       "${OPENCAST_HOME}" \
