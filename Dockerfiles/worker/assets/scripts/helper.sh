@@ -16,6 +16,10 @@
 
 set -e
 
+opencast_disable_config() {
+  test "${OPENCAST_DISABLE_CONFIG}" = "true"
+}
+
 opencast_helper_dist_allinone() {
   test "${OPENCAST_DISTRIBUTION}" = "allinone"
 }
