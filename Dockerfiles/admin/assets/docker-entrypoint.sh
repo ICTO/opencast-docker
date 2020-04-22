@@ -64,17 +64,20 @@ opencast_main_init() {
   opencast_file_env
   opencast_init_configure_user
 #  opencast_tz_set
-
-  if opencast_helper_customconfig; then
-    echo "Found custom config in ${OPENCAST_CUSTOM_CONFIG}"
-    echo "Run opencast_helper_copycustomconfig"
-    opencast_helper_copycustomconfig
+  if opencast_disable_config; then
+    echo "No configuration done, assuming manual configuration!"
   else
-    echo "No custom config found"
-    opencast_main_check
-  fi
+    if opencast_helper_customconfig; then
+      echo "Found custom config in ${OPENCAST_CUSTOM_CONFIG}"
+      echo "Run opencast_helper_copycustomconfig"
+      opencast_helper_copycustomconfig
+    else
+      echo "No custom config found"
+      opencast_main_check
+    fi
 
-  opencast_main_configure
+    opencast_main_configure
+  fi
 }
 
 opencast_main_start() {
