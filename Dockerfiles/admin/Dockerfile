@@ -1,4 +1,4 @@
-# Copyright 2016 The WWU eLectures Team All rights reserved.
+Dockerfiles/admin/Dockerfile# Copyright 2016 The WWU eLectures Team All rights reserved.
 #
 # Licensed under the Educational Community License, Version 2.0
 # (the "License"); you may not use this file except in compliance with
@@ -30,7 +30,7 @@ ENV OPENCAST_DISTRIBUTION="admin" \
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
-      tar gzip bzip2 xv-utils git \
+      tar gzip bzip2 xz-utils git \
       ca-certificates openssl \
       make gcc g++ libc-dev \
     \
