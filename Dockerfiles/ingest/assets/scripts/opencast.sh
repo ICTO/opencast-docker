@@ -58,5 +58,5 @@ opencast_opencast_configure() {
    opencast_helper_replaceinfile "etc/org.opencastproject.organization-mh_default_org.cfg" \
      "PROP_ORG_OPENCASTPROJECT_FILE_REPO_URL" \
      "PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL" \
-     "PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL" \
+     "PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL"
 }
