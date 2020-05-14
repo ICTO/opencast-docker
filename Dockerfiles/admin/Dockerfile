@@ -1,4 +1,4 @@
-# Copyright 2016 The WWU eLectures Team All rights reserved.
+Dockerfiles/admin/Dockerfile# Copyright 2016 The WWU eLectures Team All rights reserved.
 #
 # Licensed under the Educational Community License, Version 2.0
 # (the "License"); you may not use this file except in compliance with
@@ -99,7 +99,7 @@ COPY --chown=opencast:0 --from=build "${OPENCAST_HOME}" "${OPENCAST_HOME}"
 COPY --chown=opencast:0 assets/scripts "${OPENCAST_SCRIPTS}"
 COPY --chown=opencast:0 assets/support "${OPENCAST_SUPPORT}"
 COPY --chown=opencast:0 assets/etc/* "${OPENCAST_CONFIG}/"
-COPY --chown=opencast:0 assets/docker-entrypoint.sh assets/docker-healthcheck.sh
+COPY --chown=opencast:0 assets/docker-entrypoint.sh assets/docker-healthcheck.sh /
 
 RUN javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java"
 
