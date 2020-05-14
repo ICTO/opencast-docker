@@ -62,7 +62,7 @@ opencast_main_init() {
   echo "Run opencast_main_init"
 
   opencast_file_env
-  opencast_init_configure_user
+
 #  opencast_tz_set
   if opencast_disable_config; then
     echo "No configuration done, assuming manual configuration!"
