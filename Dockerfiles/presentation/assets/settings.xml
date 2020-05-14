@@ -1,9 +1,0 @@
-<settings>
-  <mirrors>
-   <mirror>
-      <id>openshift-internal</id>
-      <mirrorOf>*</mirrorOf>
-      <url>https://nexus-opencast.prd.openshift.ugent.be/nexus/content/groups/public</url>
-    </mirror>
-  </mirrors>
-</settings>
