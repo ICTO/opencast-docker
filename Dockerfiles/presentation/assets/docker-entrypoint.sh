@@ -21,7 +21,7 @@ set -e
 # shellcheck source=./scripts/tz.sh
 # . "${OPENCAST_SCRIPTS}/tz.sh"
 # shellcheck source=./scripts/opencast.sh
-. "${OPENCAST_SCRIPTS}/basic-init.sh"
+#. "${OPENCAST_SCRIPTS}/basic-init.sh"
 . "${OPENCAST_SCRIPTS}/opencast.sh"
 # shellcheck source=./scripts/activemq.sh
 . "${OPENCAST_SCRIPTS}/activemq.sh"
