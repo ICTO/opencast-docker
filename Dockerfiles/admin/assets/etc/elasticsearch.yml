@@ -8,10 +8,10 @@ cluster.name: opencast
 path.home: ${karaf.home}/
 
 # The location of the data files of each index / shard allocated on the node. Can hold multiple locations:
-path.data: /data/opencast/index/data
+path.data: /data/index/data
 
 # Path to log files:
-path.logs: ${karaf.data}/log/
+path.logs: /data/log/
 
 # Set the bind address specifically (IPv4 or IPv6):
 #network.bind_host: 192.168.0.1
