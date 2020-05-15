@@ -65,7 +65,8 @@ opencast_main_init() {
 # Set the uid in /etc/passwd for openshift compatibility
   if ! whoami &> /dev/null; then
     if [ -w /etc/passwd ]; then
-      echo "${USER_NAME:-default}:x:$(id -u):0:${USER_NAME:-default} user:${HOME}:/sbin/nologin" >> /etc/passwd
+      grep -v ^${OPENCAST_USER} /etc/passwd > "/tmp/passwd"
+      echo "${OPENCAST_USER}:x:$(id -u):0:Opencast User:${OPENCAST_HOME}:/bin/bash" >> /etc/passwd
     fi
   fi
 #  opencast_tz_set
