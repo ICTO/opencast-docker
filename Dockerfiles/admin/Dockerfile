@@ -74,11 +74,7 @@ LABEL maintainer="UGent Multimedia <multimedia@ugent.be>" \
       org.label-schema.vcs-url="https://github.com/mm-dict/opencast-docker" \
       org.label-schema.vendor="Ghent University"
 
-ENV LANG="C.UTF-8" \
-    JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk" \
-    PATH="$PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin" \
-    \
-    OPENCAST_VERSION="8.x" \
+ENV OPENCAST_VERSION="8.x" \
     OPENCAST_DISTRIBUTION="admin" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \
