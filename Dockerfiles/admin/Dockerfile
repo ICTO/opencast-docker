@@ -105,5 +105,6 @@ EXPOSE 8080
 VOLUME [ "${OPENCAST_DATA}" ]
 
 HEALTHCHECK --timeout=10s CMD /docker-healthcheck.sh
+RUN chmod g=u /etc/passwd
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["app:start"]
