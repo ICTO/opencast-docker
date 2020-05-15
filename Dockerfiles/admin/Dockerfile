@@ -34,11 +34,6 @@ RUN apt-get update \
       ca-certificates openssl \
       make gcc g++ libc-dev \
     \
- && git clone https://github.com/ncopa/su-exec.git /tmp/su-exec \
- && cd /tmp/su-exec \
- && make \
- && cp su-exec /usr/local/sbin \
-  \
  && mkdir -p /tmp/ffmpeg \
  && cd /tmp/ffmpeg \
  && curl -sSL "https://pkg.opencast.org/bin/ffmpeg/ffmpeg-${FFMPEG_VERSION}.tar.xz" \
@@ -89,7 +84,6 @@ ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
     OPENCAST_REPO="${repo}" \
     OPENCAST_BRANCH="${branch}"
 
-COPY --from=build /usr/local/sbin/su-exec /usr/local/sbin/su-exec
 COPY --from=build /usr/local/bin/ff* /usr/local/sbin/
 COPY --chown=opencast:0 --from=build "${OPENCAST_HOME}" "${OPENCAST_HOME}"
 COPY --chown=opencast:0 assets/scripts "${OPENCAST_SCRIPTS}"

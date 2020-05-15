@@ -62,6 +62,12 @@ opencast_main_init() {
   echo "Run opencast_main_init"
 
   opencast_file_env
+# Set the uid in /etc/passwd for openshift compatibility
+  if ! whoami &> /dev/null; then
+    if [ -w /etc/passwd ]; then
+      echo "${USER_NAME:-default}:x:$(id -u):0:${USER_NAME:-default} user:${HOME}:/sbin/nologin" >> /etc/passwd
+    fi
+  fi
 #  opencast_tz_set
   if opencast_disable_config; then
     echo "No configuration done, assuming manual configuration!"
@@ -94,7 +100,7 @@ opencast_main_start() {
     $OPENCAST_HOME/bin/start-opencast debug
   fi
 
-  /usr/local/sbin/su-exec 800:0 $OPENCAST_HOME/bin/start-opencast daemon &
+  $OPENCAST_HOME/bin/start-opencast daemon &
   OC_PID=$!
   trap opencast_main_stop TERM INT
 
