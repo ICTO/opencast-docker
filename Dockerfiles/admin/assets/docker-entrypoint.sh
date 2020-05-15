@@ -106,7 +106,7 @@ opencast_main_start() {
     $OPENCAST_HOME/bin/start-opencast
   fi
 
-  $OPENCAST_HOME/bin/start-opencast daemon &
+  /usr/local/sbin/su-exec 800:0 $OPENCAST_HOME/bin/start-opencast daemon &
   OC_PID=$!
   trap opencast_main_stop TERM INT
 
