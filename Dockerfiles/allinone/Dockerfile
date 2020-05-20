@@ -102,6 +102,7 @@ HEALTHCHECK --timeout=10s CMD /docker-healthcheck.sh
 RUN chmod g=u /etc/passwd
 RUN chmod g=u "${OPENCAST_CONFIG}/"
 RUN chmod g+x "${OPENCAST_HOME}"/bin/start-opencast
+RUN chmod g=u "${OPENCAST_HOME}"/data "${OPENCAST_HOME}"/data/tmp
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["app:start"]
