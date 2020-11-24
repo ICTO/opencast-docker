@@ -15,7 +15,7 @@
 FROM maven:3.6-jdk-8-slim AS build
 
 ARG repo="https://github.com/mm-dict/opencast.git"
-ARG branch="r/8.x-ugent"
+ARG branch="r/9.x-ugent"
 
 ENV OPENCAST_DISTRIBUTION="allinone" \
     OPENCAST_SRC="/usr/src/opencast" \
@@ -58,10 +58,10 @@ RUN git clone --recursive "${OPENCAST_REPO}" "${OPENCAST_SRC}" \
  && tar -xzf build/opencast-dist-${OPENCAST_DISTRIBUTION}-*.tar.gz --strip 1 -C "${OPENCAST_HOME}" \
  && rm -rf "${OPENCAST_SRC}"/* ~/.m2 ~/.npm ~/.node-gyp
 
-FROM quay.io/mm-dict/opencast-base:8.x
+FROM quay.io/mm-dict/opencast-base:9.x
 LABEL maintainer="UGent Multimedia <multimedia@ugent.be>" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.version="8.x" \
+      org.label-schema.version="9.x" \
       org.label-schema.name="opencast-allinone" \
       org.label-schema.description="Docker image for the Opencast admin distribution" \
       org.label-schema.usage="https://github.com/mm-dict/opencast-docker/blob/5.2/README.md" \
@@ -69,7 +69,7 @@ LABEL maintainer="UGent Multimedia <multimedia@ugent.be>" \
       org.label-schema.vcs-url="https://github.com/mm-dict/opencast-docker" \
       org.label-schema.vendor="Ghent University"
 
-ENV OPENCAST_VERSION="8.0" \
+ENV OPENCAST_VERSION="9.0" \
     OPENCAST_DISTRIBUTION="allinone" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \

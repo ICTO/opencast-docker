@@ -15,7 +15,7 @@
 FROM maven:3.6-jdk-8-slim AS build
 
 ARG repo="https://github.com/mm-dict/opencast.git"
-ARG branch="r/8.x-ugent"
+ARG branch="r/9.x-ugent"
 
 ENV OPENCAST_DISTRIBUTION="presentation" \
     OPENCAST_SRC="/usr/src/opencast" \
@@ -39,14 +39,6 @@ RUN apt-get update \
  && cd /tmp/su-exec \
  && make \
  && cp su-exec /usr/local/sbin \
-  \
- && mkdir -p /tmp/ffmpeg \
- && cd /tmp/ffmpeg \
- && curl -sSL "https://pkg.opencast.org/bin/ffmpeg/ffmpeg-${FFMPEG_VERSION}.tar.xz" \
-     | tar xJf - --strip-components 1 --wildcards '*/ffmpeg' '*/ffprobe' \
- && chown root:root ff* \
- && mv ff* /usr/local/bin \
-    \
  && groupadd --system -g "${OPENCAST_GID}" "${OPENCAST_GROUP}" \
  && useradd --system -M -N -g "${OPENCAST_GROUP}" -d "${OPENCAST_HOME}" -u "${OPENCAST_UID}" "${OPENCAST_USER}" \
  && mkdir -p "${OPENCAST_SRC}" "${OPENCAST_HOME}" \
@@ -64,10 +56,10 @@ RUN git clone --recursive "${OPENCAST_REPO}" "${OPENCAST_SRC}" \
  && tar -xzf build/opencast-dist-${OPENCAST_DISTRIBUTION}-*.tar.gz --strip 1 -C "${OPENCAST_HOME}" \
  && rm -rf "${OPENCAST_SRC}"/* ~/.m2 ~/.npm ~/.node-gyp
 
-FROM quay.io/mm-dict/opencast-base:8.x
+FROM quay.io/mm-dict/opencast-base:9.x
 LABEL maintainer="UGent Multimedia <multimedia@ugent.be>" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.version="8.x" \
+      org.label-schema.version="9.x" \
       org.label-schema.name="opencast-presentation" \
       org.label-schema.description="Docker image for the Opencast presentation distribution" \
       org.label-schema.usage="https://github.com/mm-dict/opencast-docker/blob/5.2/README.md" \
@@ -75,7 +67,7 @@ LABEL maintainer="UGent Multimedia <multimedia@ugent.be>" \
       org.label-schema.vcs-url="https://github.com/mm-dict/opencast-docker" \
       org.label-schema.vendor="Ghent University"
 
-ENV OPENCAST_VERSION="8.x" \
+ENV OPENCAST_VERSION="9.x" \
     OPENCAST_DISTRIBUTION="presentation" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \

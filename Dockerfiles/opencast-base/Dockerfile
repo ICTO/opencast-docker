@@ -10,7 +10,7 @@ LABEL maintainer="UGent Multimedia <multimedia@ugent.be>" \
       org.label-schema.vendor="Ghent University"
 
 ENV LANG="C.UTF-8" \
-    OPENCAST_VERSION="8.x" \
+    OPENCAST_VERSION="9.x" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \
     OPENCAST_CUSTOM_CONFIG="/etc/opencast" \
