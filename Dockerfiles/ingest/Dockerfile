@@ -76,7 +76,6 @@ ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
     OPENCAST_REPO="${repo}" \
     OPENCAST_BRANCH="${branch}"
 
-COPY --from=build /usr/local/bin/ff* /usr/local/sbin/
 COPY --chown=opencast:0 --from=build "${OPENCAST_HOME}" "${OPENCAST_HOME}"
 COPY --chown=opencast:0 assets/scripts "${OPENCAST_SCRIPTS}"
 COPY --chown=opencast:0 assets/support "${OPENCAST_SUPPORT}"
