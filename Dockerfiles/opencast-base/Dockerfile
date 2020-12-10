@@ -1,4 +1,4 @@
-FROM quay.io/mm-dict/openjdk:8-jdk-slim-stretch
+FROM quay.io/mm-dict/openjdk:11-jdk-slim-buster
 LABEL maintainer="UGent Multimedia <multimedia@ugent.be>" \
       org.label-schema.schema-version="1.0" \
       org.label-schema.version="8.x" \
