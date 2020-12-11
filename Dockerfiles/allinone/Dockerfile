@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM quay.io/mm-dict/maven:3.6-jdk-11-slim AS build
+FROM quay.io/mm-dict/maven:3-jdk-8 AS build
 
 ARG repo="https://github.com/mm-dict/opencast.git"
 ARG branch="r/9.x-ugent"
