@@ -35,5 +35,5 @@ RUN apt-get update \
       hunspell hunspell-en-au hunspell-en-ca hunspell-en-gb hunspell-en-us hunspell-en-za \
       tesseract-ocr tesseract-ocr-eng \
       sox synfig \
-      nfs-common netcat-openbsd \
+      nfs-common netcat-openbsd rsync vim \
  && rm -rf /tmp/* /var/lib/apt/lists/*
