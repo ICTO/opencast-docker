@@ -91,17 +91,7 @@ RUN ./configure \
 
 
 ## LIBX265 ##
-WORKDIR /src/deps
-RUN hg clone https://bitbucket.org/multicoreware/x265
-WORKDIR /src/deps/x265
-RUN cd build/linux && \
-    cmake -G "Unix Makefiles" \
-        -DCMAKE_INSTALL_PREFIX="/install" \
-        -DENABLE_SHARED:bool=off \
-        ../../source \
-        && \
-    make -j$(nproc) && \
-    make -j$(nproc) install
+RUN apt-get install libx265-dev libnuma-dev
 
 ## FFMPEG NV CODEC HEADERS ##
 WORKDIR /src/deps
