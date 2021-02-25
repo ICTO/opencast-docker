@@ -51,7 +51,7 @@ RUN apt-get update && apt-get -y install \
 
 ## NASM ##
 WORKDIR /src/deps
-RUN wget http://www.nasm.us/pub/nasm/releasebuilds/2.13.02/nasm-2.13.02.tar.gz \
+RUN wget http://www.nasm.us/pub/nasm/releasebuilds/2.14.02/nasm-2.14.02.tar.gz \
         --output-document=/src/deps/nasm.tar.gz
 RUN tar -xvf /src/deps/nasm.tar.gz
 RUN mv /src/deps/nasm-* /src/deps/nasm
