@@ -1,5 +1,7 @@
 FROM nvidia/cuda:11.2.1-devel-ubuntu20.04 as build
 
+RUN apt-get update
+RUN DEBIAN_FRONTEND="noninteractive" apt-get -y install tzdata
 # Install basic development dependencies
 RUN apt-get update && apt-get install -y \
     git \
@@ -15,14 +17,11 @@ RUN apt-get update && apt-get install -y \
 # Install NVENC dependencies
 RUN apt-get update && apt-get -y install \
     glew-utils \
-    libglew-dbg \
     libglew-dev \
-    libglew1.13 \
+    libglew2.1 \
     libglewmx-dev \
-    libglewmx-dbg \
     freeglut3 \
     freeglut3-dev \
-    freeglut3-dbg \
     libghc-glut-dev \
     libghc-glut-doc \
     libghc-glut-prof \
