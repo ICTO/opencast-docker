@@ -14,26 +14,6 @@ RUN apt-get update && apt-get install -y \
     zlib1g-dev \
     git
 
-# Install NVENC dependencies
-RUN apt-get update && apt-get -y install \
-    glew-utils \
-    libglew-dev \
-    libglew2.1 \
-    libglewmx-dev \
-    freeglut3 \
-    freeglut3-dev \
-    libghc-glut-dev \
-    libghc-glut-doc \
-    libghc-glut-prof \
-    libalut-dev \
-    libxmu-dev \
-    libxmu-headers \
-    libxmu6 \
-    libxmu6-dbg \
-    libxmuu-dev \
-    libxmuu1 \
-    libxmuu1-dbg
-
 # Install FFmpeg dependencies
 RUN apt-get update && apt-get -y install \
     autoconf \
