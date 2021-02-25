@@ -34,6 +34,11 @@ RUN apt-get update && apt-get -y install \
     libxcb1-dev \
     libxcb-shm0-dev \
     libxcb-xfixes0-dev \
+    libx265-dev \
+    libnuma-dev \
+    libfdk-aac-dev \
+    libx264-dev \
+    nasm \
     mercurial \
     pkg-config \
     texinfo \
@@ -43,55 +48,6 @@ RUN apt-get update && apt-get -y install \
 
 RUN mkdir -p /src/deps /install
 ENV PATH="/install/usr/bin:/install/bin:${PATH}"
-
-
-# Install nasm deps
-RUN apt-get update && apt-get -y install \
-    asciidoc
-
-## NASM ##
-WORKDIR /src/deps
-RUN wget http://www.nasm.us/pub/nasm/releasebuilds/2.14.02/nasm-2.14.02.tar.gz \
-        --output-document=/src/deps/nasm.tar.gz
-RUN tar -xvf /src/deps/nasm.tar.gz
-RUN mv /src/deps/nasm-* /src/deps/nasm
-WORKDIR /src/deps/nasm
-RUN ./autogen.sh && \
-    ./configure --prefix=/install && \
-    make -j$(nproc) && \
-    make -j$(nproc) install
-
-
-## FDK-AAC ##
-WORKDIR /src/deps
-RUN git clone --depth=1 https://github.com/mstorsjo/fdk-aac.git /src/deps/fdk-aac
-WORKDIR /src/deps/fdk-aac
-RUN autoreconf -fiv && \
-    ./configure \
-        --prefix=/install \
-        --disable-shared \
-        && \
-    make -j$(nproc) && \
-    make -j$(nproc) install
-
-
-## LIBX264 ##
-WORKDIR /src/deps
-RUN git clone --depth=1 http://git.videolan.org/git/x264.git /src/deps/x264
-WORKDIR /src/deps/x264
-RUN ./configure \
-        --prefix="/install" \
-        --enable-static \
-        --disable-shared \
-        --enable-pic \
-        --disable-opencl \
-        && \
-    make -j$(nproc) && \
-    make -j$(nproc) install
-
-
-## LIBX265 ##
-RUN apt-get install libx265-dev libnuma-dev
 
 ## FFMPEG NV CODEC HEADERS ##
 WORKDIR /src/deps
