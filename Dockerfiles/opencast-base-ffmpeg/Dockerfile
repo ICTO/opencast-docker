@@ -36,5 +36,5 @@ ENV NVIDIA_VISIBLE_DEVICES all
 # for further details, in nvidia/cuda:9.0 images the base image will
 # set these for you
 ENV NVIDIA_DRIVER_CAPABILITIES video,compute,utility
-ENTRYPOINT ["/usr/local/bin/ffmpeg"]
-CMD ["-h"]
+ENTRYPOINT ["nvidia-smi"]
+CMD ["-L"]
