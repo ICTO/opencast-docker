@@ -118,7 +118,7 @@ RUN wget https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-3.6.15.tar.xz && \
     PKG_CONFIG_PATH="/install/lib64/pkgconfig:$PKG_CONFIG_PATH" ./configure --prefix="/install" --bindir="/install/bin" --enable-static --disable-shared --with-included-libtasn1 \
         --with-included-unistring --without-p11-kit --disable-doc --disable-cxx --disable-tools && \
     make -j$(nproc) && \
-    make -j$(nproc) install &&
+    make -j$(nproc) install
 
 ## FFMPEG NV CODEC HEADERS ##
 WORKDIR /src/deps

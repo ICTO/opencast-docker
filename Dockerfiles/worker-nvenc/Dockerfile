@@ -64,7 +64,7 @@ RUN git clone --recursive "${OPENCAST_REPO}" "${OPENCAST_SRC}" \
  && tar -xzf build/opencast-dist-${OPENCAST_DISTRIBUTION}-*.tar.gz --strip 1 -C "${OPENCAST_HOME}" \
  && rm -rf "${OPENCAST_SRC}"/* ~/.m2 ~/.npm ~/.node-gyp
 
-FROM quay.io/mm-dict/opencast-base:9.x
+FROM quay.io/mm-dict/opencast-base-ffmpeg:9.x
 LABEL maintainer="UGent Multimedia <multimedia@ugent.be>" \
       org.label-schema.schema-version="1.0" \
       org.label-schema.version="9.x" \
@@ -91,7 +91,6 @@ ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
     OPENCAST_BRANCH="${branch}"
 
 COPY --from=build /usr/local/sbin/su-exec /usr/local/sbin/su-exec
-COPY --from=build /usr/local/bin/ff* /usr/local/sbin/
 COPY --chown=opencast:0 --from=build "${OPENCAST_HOME}" "${OPENCAST_HOME}"
 COPY --chown=opencast:0 assets/scripts "${OPENCAST_SCRIPTS}"
 COPY --chown=opencast:0 assets/support "${OPENCAST_SUPPORT}"
