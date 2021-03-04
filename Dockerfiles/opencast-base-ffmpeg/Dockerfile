@@ -214,7 +214,7 @@ RUN apt-get update \
       tesseract-ocr tesseract-ocr-eng \
       sox synfig \
       nfs-common netcat-openbsd rsync vim \
-      openjdk-11-jdk \
+      openjdk-11-jdk nvidia-cuda-toolkit \
     && rm -rf /var/cache/apt
 
 COPY --from=build /install/bin/* /usr/local/bin/
