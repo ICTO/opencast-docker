@@ -198,6 +198,9 @@ ENV OPENCAST_VERSION="9.x" \
     OPENCAST_CONFIG="${OPENCAST_HOME}/etc" \
     DEBIAN_FRONTEND="noninteractive"
 
+ENV NVIDIA_VISIBLE_DEVICES all
+ENV NVIDIA_DRIVER_CAPABILITIES video,compute,utility,graphics
+
 RUN groupadd --system -g "${OPENCAST_GID}" "${OPENCAST_GROUP}" \
  && useradd --system -M -N -g "${OPENCAST_GROUP}" -d "${OPENCAST_HOME}" -u "${OPENCAST_UID}" "${OPENCAST_USER}" \
  && mkdir -p "${OPENCAST_DATA}" \
@@ -211,7 +214,7 @@ RUN apt-get update \
       tesseract-ocr tesseract-ocr-eng \
       sox synfig \
       nfs-common netcat-openbsd rsync vim \
-      openjdk-11-jdk nvidia-cuda-toolkit \
+      openjdk-11-jdk \
     && rm -rf /var/cache/apt
 
 COPY --from=build /install/bin/* /usr/local/bin/
