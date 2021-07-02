@@ -66,8 +66,16 @@ opencast_file_env() {
 opencast_main_init() {
   echo "Run opencast_main_init"
 
+  # Set the uid in /etc/passwd for openshift compatibility
+  if ! whoami &> /dev/null; then
+    if [ -w /etc/passwd ]; then
+      grep -v ^${OPENCAST_USER} /etc/passwd > "/tmp/passwd"
+      echo "${OPENCAST_USER}:x:$(id -u):0:Opencast User:${OPENCAST_HOME}:/bin/bash" >> /etc/passwd
+    fi
+  fi
+
   opencast_file_env
-  opencast_tz_set
+  #opencast_tz_set
 
   if opencast_helper_customconfig; then
     echo "Found custom config in ${OPENCAST_CUSTOM_CONFIG}"
