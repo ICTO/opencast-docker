@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM maven:3-jdk-11-slim AS build
+FROM quay.io/mm-dict/maven:3-jdk-11-slim AS build
 
 ARG repo="https://github.com/opencast/opencast.git"
 ARG branch="10.0"
@@ -76,7 +76,7 @@ RUN git clone --recursive "${OPENCAST_REPO}" "${OPENCAST_SRC}" \
  && tar -xzf build/opencast-dist-${OPENCAST_DISTRIBUTION}-*.tar.gz --strip 1 -C "${OPENCAST_HOME}" \
  && rm -rf "${OPENCAST_SRC}"/* ~/.m2 ~/.npm ~/.node-gyp
 
-FROM openjdk:11-jdk-slim
+FROM quay.io/mm-dict/openjdk:11-jdk-slim
 LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.schema-version="1.0" \
       org.label-schema.version="10.0" \
