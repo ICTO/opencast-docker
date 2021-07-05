@@ -14,8 +14,8 @@
 
 FROM quay.io/mm-dict/maven:3-jdk-11-slim AS build
 
-ARG repo="https://github.com/opencast/opencast.git"
-ARG branch="10.0"
+ARG repo="https://github.com/mm-dict/opencast.git"
+ARG branch="r/10.x-ugent"
 
 ENV OPENCAST_DISTRIBUTION="ingest" \
     OPENCAST_SRC="/usr/src/opencast" \
