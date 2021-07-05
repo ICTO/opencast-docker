@@ -44,9 +44,7 @@ jobs:
       matrix:
         distribution:
           - admin
-          - adminpresentation
           - allinone
-          - build
           - ingest
           - presentation
           - worker
@@ -74,8 +72,8 @@ jobs:
         if: ${{ github.event_name == 'push' }}
         run: |
           if [ "${{ github.ref }}" == "refs/heads/master" ]; then
-            docker tag "quay.io/opencast/${{ matrix.distribution }}:$(cat VERSION)" "quay.io/opencast/${{ matrix.distribution }}:latest"
-            docker push "quay.io/opencast/${{ matrix.distribution }}:latest"
+            docker tag "quay.io/mm-dict/opencast-${{ matrix.distribution }}:$(cat VERSION)" "quay.io/mm-dict/opencast-${{ matrix.distribution }}:latest"
+            docker push "quay.io/mm-dict/opencast-${{ matrix.distribution }}:latest"
           else
-            docker push "quay.io/opencast/${{ matrix.distribution }}:$(cat VERSION)"
+            docker push "quay.io/mm-dict/opencast-${{ matrix.distribution }}:$(cat VERSION)"
           fi
