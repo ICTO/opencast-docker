@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-DOCKER_IMAGE_BASE=quay.io/opencast
+DOCKER_IMAGE_BASE=quay.io/mm-dict
 DOCKER_TAG=$(shell cat VERSION)
 
 REPO=$(shell sed -n -e 's/^ARG repo="\(.*\)"/\1/p' Dockerfiles/allinone/Dockerfile)
@@ -24,14 +24,14 @@ export DOCKER_BUILDKIT=1
 
 all: lint build test
 
-build: build-allinone build-admin build-adminpresentation build-ingest build-presentation build-worker build-build
+build: build-allinone build-admin build-ingest build-presentation build-worker
 build-allinone:
 	docker build \
 		--pull \
 		--build-arg repo=$(REPO) \
 		--build-arg branch=$(BRANCH) \
-		-t $(DOCKER_IMAGE_BASE)/allinone \
-		-t $(DOCKER_IMAGE_BASE)/allinone:$(DOCKER_TAG) \
+		-t $(DOCKER_IMAGE_BASE)/opencast-allinone \
+		-t $(DOCKER_IMAGE_BASE)/opencast-allinone:$(DOCKER_TAG) \
 		$(CUSTOM_DOCKER_BUILD_ARGS) \
 		-f Dockerfiles/allinone/Dockerfile \
 		.
@@ -40,28 +40,18 @@ build-admin:
 		--pull \
 		--build-arg repo=$(REPO) \
 		--build-arg branch=$(BRANCH) \
-		-t $(DOCKER_IMAGE_BASE)/admin \
-		-t $(DOCKER_IMAGE_BASE)/admin:$(DOCKER_TAG) \
+		-t $(DOCKER_IMAGE_BASE)/opencast-admin \
+		-t $(DOCKER_IMAGE_BASE)/opencast-admin:$(DOCKER_TAG) \
 		$(CUSTOM_DOCKER_BUILD_ARGS) \
 		-f Dockerfiles/admin/Dockerfile \
-		.
-build-adminpresentation:
-	docker build \
-		--pull \
-		--build-arg repo=$(REPO) \
-		--build-arg branch=$(BRANCH) \
-		-t $(DOCKER_IMAGE_BASE)/adminpresentation \
-		-t $(DOCKER_IMAGE_BASE)/adminpresentation:$(DOCKER_TAG) \
-		$(CUSTOM_DOCKER_BUILD_ARGS) \
-		-f Dockerfiles/adminpresentation/Dockerfile \
 		.
 build-ingest:
 	docker build \
 		--pull \
 		--build-arg repo=$(REPO) \
 		--build-arg branch=$(BRANCH) \
-		-t $(DOCKER_IMAGE_BASE)/ingest \
-		-t $(DOCKER_IMAGE_BASE)/ingest:$(DOCKER_TAG) \
+		-t $(DOCKER_IMAGE_BASE)/opencast-ingest \
+		-t $(DOCKER_IMAGE_BASE)/opencast-ingest:$(DOCKER_TAG) \
 		$(CUSTOM_DOCKER_BUILD_ARGS) \
 		-f Dockerfiles/ingest/Dockerfile \
 		.
@@ -70,8 +60,8 @@ build-presentation:
 		--pull \
 		--build-arg repo=$(REPO) \
 		--build-arg branch=$(BRANCH) \
-		-t $(DOCKER_IMAGE_BASE)/presentation \
-		-t $(DOCKER_IMAGE_BASE)/presentation:$(DOCKER_TAG) \
+		-t $(DOCKER_IMAGE_BASE)/opencast-presentation \
+		-t $(DOCKER_IMAGE_BASE)/opencast-presentation:$(DOCKER_TAG) \
 		$(CUSTOM_DOCKER_BUILD_ARGS) \
 		-f Dockerfiles/presentation/Dockerfile \
 		.
@@ -80,22 +70,12 @@ build-worker:
 		--pull \
 		--build-arg repo=$(REPO) \
 		--build-arg branch=$(BRANCH) \
-		-t $(DOCKER_IMAGE_BASE)/worker \
-		-t $(DOCKER_IMAGE_BASE)/worker:$(DOCKER_TAG) \
+		-t $(DOCKER_IMAGE_BASE)/opencast-worker \
+		-t $(DOCKER_IMAGE_BASE)/opencast-worker:$(DOCKER_TAG) \
 		$(CUSTOM_DOCKER_BUILD_ARGS) \
 		-f Dockerfiles/worker/Dockerfile \
 		.
-build-build:
-	docker build \
-		--pull \
-		--build-arg repo=$(REPO) \
-		--build-arg branch=$(BRANCH) \
-		-t $(DOCKER_IMAGE_BASE)/build \
-		-t $(DOCKER_IMAGE_BASE)/build:$(DOCKER_TAG) \
-		$(CUSTOM_DOCKER_BUILD_ARGS) \
-		-f Dockerfiles/build/Dockerfile \
-		.
-.PHONY: build build-allinone build-admin build-adminpresentation build-ingest build-presentation build-worker build-build
+.PHONY: build build-allinone build-admin build-ingest build-presentation build-worker
 
 test:
 	bats test
@@ -107,14 +87,11 @@ clean:
 	-docker rmi $(DOCKER_IMAGE_BASE)/ingest
 	-docker rmi $(DOCKER_IMAGE_BASE)/presentation
 	-docker rmi $(DOCKER_IMAGE_BASE)/worker
-	-docker rmi $(DOCKER_IMAGE_BASE)/build
 	-docker rmi $(DOCKER_IMAGE_BASE)/allinone:$(DOCKER_TAG)
 	-docker rmi $(DOCKER_IMAGE_BASE)/admin:$(DOCKER_TAG)
-	-docker rmi $(DOCKER_IMAGE_BASE)/adminpresentation:$(DOCKER_TAG)
 	-docker rmi $(DOCKER_IMAGE_BASE)/ingest:$(DOCKER_TAG)
 	-docker rmi $(DOCKER_IMAGE_BASE)/presentation:$(DOCKER_TAG)
 	-docker rmi $(DOCKER_IMAGE_BASE)/worker:$(DOCKER_TAG)
-	-docker rmi $(DOCKER_IMAGE_BASE)/build:$(DOCKER_TAG)
 .PHONY: clean
 
 lint:
