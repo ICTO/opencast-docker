@@ -66,13 +66,6 @@ opencast_file_env() {
 opencast_main_init() {
   echo "Run opencast_main_init"
 
-  # Set the uid in /etc/passwd for openshift compatibility
-  if [ -w /etc/passwd ]; then
-    grep -v ^${OPENCAST_USER} /etc/passwd > "/tmp/passwd"
-    grep -v ^$(id -u) /etc/passwd >> "/tmp/passwd"
-    echo "${OPENCAST_USER}:x:$(id -u):0:Opencast User:${OPENCAST_HOME}:/bin/bash" >> /etc/passwd
-  fi
-
   opencast_file_env
   #opencast_tz_set
 
