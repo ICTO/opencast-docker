@@ -148,6 +148,8 @@ RUN if [ "${OPENCAST_DISTRIBUTION}" = "allinone" ]; then \
  && javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java" \
  && rm -rf /tmp/* "${OPENCAST_SCRIPTS}/TryToConnectToDb.java"
 
+RUN chmod 664 /etc/passwd
+
 WORKDIR "${OPENCAST_HOME}"
 
 EXPOSE 8080

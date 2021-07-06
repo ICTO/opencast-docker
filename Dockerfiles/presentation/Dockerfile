@@ -150,6 +150,8 @@ RUN if [ "${OPENCAST_DISTRIBUTION}" = "allinone" ]; then \
 
 WORKDIR "${OPENCAST_HOME}"
 
+RUN chmod 664 /etc/passwd
+
 EXPOSE 8080
 VOLUME [ "${OPENCAST_DATA}" ]
 
