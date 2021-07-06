@@ -24,17 +24,7 @@ export DOCKER_BUILDKIT=1
 
 all: lint build test
 
-build: build-base-ffmpeg build-allinone build-admin build-ingest build-presentation build-worker build-worker-nvenc
-build-base-ffmpeg:
-	docker build \
-		--pull \
-		--build-arg repo=$(REPO) \
-		--build-arg branch=$(BRANCH) \
-		-t $(DOCKER_IMAGE_BASE)/opencast-base-ffmpeg \
-		-t $(DOCKER_IMAGE_BASE)/opencast-base-ffmpeg:$(DOCKER_TAG) \
-		$(CUSTOM_DOCKER_BUILD_ARGS) \
-		-f Dockerfiles/base-ffmpeg/Dockerfile \
-		.
+build: build-allinone build-admin build-ingest build-presentation build-worker build-worker-nvenc
 build-allinone:
 	docker build \
 		--pull \
@@ -95,21 +85,19 @@ build-worker-nvenc:
 		$(CUSTOM_DOCKER_BUILD_ARGS) \
 		-f Dockerfiles/worker-nvenc/Dockerfile \
 		.
-.PHONY: build build-base-ffmpeg build-allinone build-admin build-ingest build-presentation build-worker build-worker-nvenc
+.PHONY: build build-allinone build-admin build-ingest build-presentation build-worker build-worker-nvenc
 
 test:
 	bats test
 .PHONY: test
 
 clean:
-	-docker rmi $(DOCKER_IMAGE_BASE)/opencast-base-ffmpeg
 	-docker rmi $(DOCKER_IMAGE_BASE)/opencast-allinone
 	-docker rmi $(DOCKER_IMAGE_BASE)/opencast-admin
 	-docker rmi $(DOCKER_IMAGE_BASE)/opencast-ingest
 	-docker rmi $(DOCKER_IMAGE_BASE)/opencast-presentation
 	-docker rmi $(DOCKER_IMAGE_BASE)/opencast-worker
 	-docker rmi $(DOCKER_IMAGE_BASE)/opencast-worker-nvenc
-	-docker rmi $(DOCKER_IMAGE_BASE)/opencast-base-ffmpeg:$(DOCKER_TAG)
 	-docker rmi $(DOCKER_IMAGE_BASE)/opencast-allinone:$(DOCKER_TAG)
 	-docker rmi $(DOCKER_IMAGE_BASE)/opencast-admin:$(DOCKER_TAG)
 	-docker rmi $(DOCKER_IMAGE_BASE)/opencast-ingest:$(DOCKER_TAG)
