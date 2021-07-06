@@ -37,11 +37,13 @@ jobs:
     strategy:
       matrix:
         distribution:
+          - base-ffmpeg
           - admin
           - allinone
           - ingest
           - presentation
           - worker
+          - worker-nvenc
     env:
       DOCKER_BUILDKIT: 1
     steps:
