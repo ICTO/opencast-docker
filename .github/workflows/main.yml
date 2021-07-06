@@ -37,7 +37,6 @@ jobs:
     strategy:
       matrix:
         distribution:
-          - base-ffmpeg
           - admin
           - allinone
           - ingest
