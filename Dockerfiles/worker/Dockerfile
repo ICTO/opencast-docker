@@ -124,6 +124,7 @@ RUN apt-get update \
       hunspell-en-gb \
       hunspell-en-us \
       hunspell-en-za \
+      hunspell-nl \
       jq \
       netcat-openbsd \
       nfs-common \
@@ -132,6 +133,7 @@ RUN apt-get update \
       synfig \
       tesseract-ocr \
       tesseract-ocr-eng \
+      tesseract-ocr-nld \
       tzdata \
  && rm -rf /var/lib/apt/lists/*
 

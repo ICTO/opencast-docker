@@ -300,7 +300,7 @@ RUN apt-get update \
       hunspell-en-gb \
       hunspell-en-us \
       hunspell-en-za \
-      hunspell-nl-nl \
+      hunspell-nl \
       jq \
       netcat-openbsd \
       nfs-common \
