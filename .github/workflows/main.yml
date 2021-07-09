@@ -43,7 +43,7 @@ jobs:
           - ingest
           - presentation
           - worker
-          - worker-nvenc
+          - worker-nvidia
     env:
       DOCKER_BUILDKIT: 1
     steps:

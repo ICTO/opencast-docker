@@ -24,7 +24,7 @@ export DOCKER_BUILDKIT=1
 
 all: lint build test
 
-build: build-allinone build-admin build-ingest build-presentation build-worker build-worker-nvenc
+build: build-allinone build-admin build-ingest build-presentation build-worker build-worker-nvidia
 build-allinone:
 	docker build \
 		--pull \
@@ -75,17 +75,17 @@ build-worker:
 		$(CUSTOM_DOCKER_BUILD_ARGS) \
 		-f Dockerfiles/worker/Dockerfile \
 		.
-build-worker-nvenc:
+build-worker-nvidia:
 	docker build \
 		--pull \
 		--build-arg repo=$(REPO) \
 		--build-arg branch=$(BRANCH) \
-		-t $(DOCKER_IMAGE_BASE)/opencast-worker-nvenc \
-		-t $(DOCKER_IMAGE_BASE)/opencast-worker-nvenc:$(DOCKER_TAG) \
+		-t $(DOCKER_IMAGE_BASE)/opencast-worker-nvidia \
+		-t $(DOCKER_IMAGE_BASE)/opencast-worker-nvidia:$(DOCKER_TAG) \
 		$(CUSTOM_DOCKER_BUILD_ARGS) \
 		-f Dockerfiles/worker-nvenc/Dockerfile \
 		.
-.PHONY: build build-allinone build-admin build-ingest build-presentation build-worker build-worker-nvenc
+.PHONY: build build-allinone build-admin build-ingest build-presentation build-worker build-worker-nvidia
 
 test:
 	bats test
@@ -97,13 +97,13 @@ clean:
 	-docker rmi $(DOCKER_IMAGE_BASE)/opencast-ingest
 	-docker rmi $(DOCKER_IMAGE_BASE)/opencast-presentation
 	-docker rmi $(DOCKER_IMAGE_BASE)/opencast-worker
-	-docker rmi $(DOCKER_IMAGE_BASE)/opencast-worker-nvenc
+	-docker rmi $(DOCKER_IMAGE_BASE)/opencast-worker-nvidia
 	-docker rmi $(DOCKER_IMAGE_BASE)/opencast-allinone:$(DOCKER_TAG)
 	-docker rmi $(DOCKER_IMAGE_BASE)/opencast-admin:$(DOCKER_TAG)
 	-docker rmi $(DOCKER_IMAGE_BASE)/opencast-ingest:$(DOCKER_TAG)
 	-docker rmi $(DOCKER_IMAGE_BASE)/opencast-presentation:$(DOCKER_TAG)
 	-docker rmi $(DOCKER_IMAGE_BASE)/opencast-worker:$(DOCKER_TAG)
-	-docker rmi $(DOCKER_IMAGE_BASE)/opencast-worker-nvenc:$(DOCKER_TAG)
+	-docker rmi $(DOCKER_IMAGE_BASE)/opencast-worker-nvidia:$(DOCKER_TAG)
 .PHONY: clean
 
 lint:
